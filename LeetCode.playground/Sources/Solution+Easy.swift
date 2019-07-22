@@ -91,6 +91,26 @@ public extension Solution{
         return nums.firstIndex{ $0 >= target } ?? nums.count
     }
     
+    
+    /**
+     53. Maximum Subarray
+     */
+    func maxSubArray(_ nums: [Int]) -> Int {
+        func kanade(_ nums: [Int]) -> Int{
+            guard let first = nums.first else { return 0 }
+            var maxSoFar = first
+            var maxEndingHere = first
+            for i in 1..<nums.count {
+                maxEndingHere = max(nums[i], maxEndingHere + nums[i])
+                maxSoFar = max(maxSoFar, maxEndingHere)
+            }
+            return maxSoFar
+        }
+        return kanade(nums)
+    }
+    
+
+    
     /**
      58. Length of Last Word
      */
