@@ -1,5 +1,5 @@
 //
-//  Solution.swift
+//  Solution+Easy.swift
 //
 //
 //  Created by Wei on 2019/02/19.
@@ -88,7 +88,7 @@ public extension Solution{
      35. Search Insert Position
      */
     func searchInsert(_ nums: [Int], _ target: Int) -> Int {
-        return nums.index{ $0 >= target } ?? nums.count
+        return nums.firstIndex{ $0 >= target } ?? nums.count
     }
     
     /**
@@ -268,7 +268,7 @@ public extension Solution{
         case third = "zxcvbnm"
     }
     func findWords(_ words: [String]) -> [String] {
-        return words.flatMap{
+        return words.compactMap{
             var isChanged = false
             var row: Row?{
                 didSet{
@@ -387,7 +387,7 @@ public extension Solution{
         ops.forEach{ letter in
             switch letter {
             case "C":
-                sum.popLast()
+                _ = sum.popLast()
             case "D":
                 sum.append(sum[sum.count-1]*2)
             case "+":
@@ -434,7 +434,7 @@ public extension Solution{
             counts[letter, default:0] += 1
         }
         
-        return J.flatMap{ dict[$0] }.reduce(0, +)
+        return J.compactMap{ dict[$0] }.reduce(0, +)
     }
     
     

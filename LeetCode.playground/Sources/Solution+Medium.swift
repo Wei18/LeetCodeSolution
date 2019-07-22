@@ -2,7 +2,7 @@
 //  Solution+Medium.swift
 //
 //
-//  Created by Wei on 2019/02/19.
+//  Created by Wei on 2019/07/19.
 //
 
 import Foundation
@@ -179,44 +179,32 @@ public extension Solution{
         return r
     }
 
-
-    
-    
-    
-}
-
-//MARK:- Hard
-public extension Solution{
     
     /**
-     765. Couples Holding Hands
+     918. Maximum Sum Circular Subarray
      */
-    func minSwapsCouples(_ row: [Int]) -> Int {
-        var data = row
-        var moved = 0
+    func maxSubarraySumCircular(_ A: [Int]) -> Int {
+        let sum = A.reduce(0, +)
+        let aMax = kanade(A)
+        let otherMax = kanade(A.map{ -$0 })
+        if sum + otherMax > 0 {
+            return max(aMax, sum + otherMax)
+        }else{
+            return aMax
+        }
         
-        repeat {
-            guard let first = data.first, let i = data.firstIndex(where: { $0 == getCouple(first) }) else { break }
-            if i > 1 {
-                moved = moved + 1
-                data[1] = data[1] ^ data[i]
-                data[i] = data[1] ^ data[i]
-                data[1] = data[1] ^ data[i]
-            }
-            data.removeFirst(2)
-            
-        } while data.count > 2
-        
-        return moved
     }
     
-    func getCouple(_ a: Int) -> Int{
-        return a % 2 == 0 ? a + 1 : a - 1
+    func kanade(_ A: [Int]) -> Int{
+        var max_so_far = A.first ?? 0
+        var max_ending_here = A.first ?? 0
+        
+        for i in 1..<A.count {
+            max_ending_here = max(A[i], max_ending_here + A[i])
+            max_so_far = max(max_so_far, max_ending_here)
+        }
+        
+        return max_so_far
     }
-    
-    
-    /**
-     778. Swim in Rising Water
-     */
-    //Using Heap, refer to url: https://leetcode.com/submissions/detail/144698935/
+
 }
