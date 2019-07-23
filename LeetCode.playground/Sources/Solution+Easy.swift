@@ -167,6 +167,24 @@ public extension Solution{
     
     
     /**
+     112. Path Sum
+     */
+    func hasPathSum(_ root: TreeNode?, _ sum: Int) -> Bool {
+        guard let node = root else { return false }
+        let currentValue = sum - node.val
+        if currentValue == 0, node.isLeaf {
+            return true
+        }
+        if hasPathSum(node.left, currentValue) {
+            return true
+        }
+        if hasPathSum(node.right, currentValue) {
+            return true
+        }
+        return false
+    }
+    
+    /**
      268. Missing Number
      */
     func missingNumber(_ nums: [Int]) -> Int {
@@ -561,4 +579,7 @@ extension Solution{
             self.right = nil
         }
     }
+}
+extension Solution.TreeNode{
+    var isLeaf: Bool { return left == nil && right == nil }
 }
