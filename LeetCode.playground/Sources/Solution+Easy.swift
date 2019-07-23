@@ -440,6 +440,28 @@ public extension Solution{
 
 
     /**
+     704. Binary Search
+     */
+    func search(_ nums: [Int], _ target: Int) -> Int {
+        var lo = 0
+        var hi = nums.count - 1
+        
+        while lo <= hi {
+            var mid = (hi + lo) / 2
+            if target > nums[mid] {
+                lo = mid + 1
+            }
+            else if target < nums[mid]{
+                hi = mid - 1
+            }
+            else{
+                return mid
+            }
+        }
+        return -1
+    }
+
+    /**
      709. To Lower Case
      */
     func toLowerCase(_ str: String) -> String {
