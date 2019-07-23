@@ -184,6 +184,74 @@ public extension Solution{
         return false
     }
     
+    
+    /**
+     225. Implement Stack using Queues
+     */
+    class MyStack {
+        
+        private var items: [Int] = []
+        /** Initialize your data structure here. */
+        init() {
+            
+        }
+        
+        /** Push element x onto stack. */
+        func push(_ x: Int) {
+            items.append(x)
+        }
+        
+        /** Removes the element on top of the stack and returns that element. */
+        func pop() -> Int {
+            return items.removeLast()
+        }
+        
+        /** Get the top element. */
+        func top() -> Int {
+            return items.last!
+        }
+        
+        /** Returns whether the stack is empty. */
+        func empty() -> Bool {
+            return items.isEmpty
+        }
+    }
+
+    /**
+     232. Implement Queue using Stacks
+     */
+    class MyQueue {
+        private var items: [Int] = []
+        private var dequeueIndex = 0
+        private var euqueueIndex: Int { return items.count - 1 }
+        
+        /** Initialize your data structure here. */
+        init() {
+            
+        }
+        
+        /** Push element x to the back of queue. */
+        func push(_ x: Int) {
+            items.append(x)
+        }
+        
+        /** Removes the element from in front of queue and returns that element. */
+        func pop() -> Int {
+            dequeueIndex += 1
+            return items[dequeueIndex - 1]
+        }
+        
+        /** Get the front element. */
+        func peek() -> Int {
+            return items[dequeueIndex]
+        }
+        
+        /** Returns whether the queue is empty. */
+        func empty() -> Bool {
+            return dequeueIndex - 1 == euqueueIndex
+        }
+    }
+
     /**
      268. Missing Number
      */
