@@ -118,6 +118,33 @@ public extension Solution{
         return s.split(separator: " ").last?.count ?? 0
     }
     
+    
+    /**
+     100. Same Tree
+     */
+    func isSameTree(_ p: TreeNode?, _ q: TreeNode?) -> Bool {
+        func isLeaf(_ node: TreeNode) -> Bool {
+            return node.left == nil && node.right == nil
+        }
+        
+        if p == nil, q == nil{
+            return true
+        }
+        else if let p = p, let q = q {
+            if p.val == q.val {
+                return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
+            }
+            else {
+                return false
+            }
+        }
+        else{
+            return false
+        }
+    }
+
+    
+    
     /**
      104. Maximum Depth of Binary Tree
      */
