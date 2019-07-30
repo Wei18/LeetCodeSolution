@@ -53,6 +53,22 @@ public extension Solution{
     
     
     /**
+     260. Single Number III
+     */
+    func singleNumber(_ nums: [Int]) -> [Int] {
+        var dict: [Int: Int] = [:]
+        
+        nums.forEach{ num in
+            if let found = dict[num]{
+                dict[num] = nil
+            }else{
+                dict[num] = 1
+            }
+        }
+        return dict.map{ $0.value }
+    }
+
+    /**
      442. Find All Duplicates in an Array
      */
     func findDuplicates(_ nums: [Int]) -> [Int] {
