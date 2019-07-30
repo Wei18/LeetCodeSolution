@@ -17,7 +17,7 @@ public extension Solution{
     /**
      1. Two Sum
      */
-    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+    func twoSum1(_ nums: [Int], _ target: Int) -> [Int] {
         let nums = nums
         var res: [Int] = []
         var dict:[Int:Int] = [:]
@@ -212,6 +212,28 @@ public extension Solution{
     }
     
     
+    /**
+     167. Two Sum II - Input array is sorted
+     */
+    func twoSum167(_ numbers: [Int], _ target: Int) -> [Int] {
+        var i = numbers.startIndex
+        var j = numbers.endIndex - 1
+        
+        while i < j {
+            let sum = numbers[i] + numbers[j]
+            if sum < target {
+                i += 1
+            } else if target < sum {
+                j -= 1
+            } else {
+                return [i + 1, j + 1]
+            }
+        }
+        
+        return []
+    }
+    
+
     /**
      225. Implement Stack using Queues
      */
