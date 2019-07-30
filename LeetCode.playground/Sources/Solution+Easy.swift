@@ -542,7 +542,7 @@ public extension Solution{
         var hi = nums.count - 1
         
         while lo <= hi {
-            var mid = (hi + lo) / 2
+            let mid = (hi + lo) / 2
             if target > nums[mid] {
                 lo = mid + 1
             }

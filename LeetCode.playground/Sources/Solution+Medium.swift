@@ -88,6 +88,52 @@ public extension Solution{
     
     
     /**
+     513. Find Bottom Left Tree Value
+     */
+    func findBottomLeftValue(_ root: TreeNode?) -> Int {
+        let random = Bool.random()
+        if random{
+            //DFS:recursively
+            var result: TreeNode = root!
+            var maxDepth = 1
+            recursivelyFindBottomLeftValue(root, depth: 1, maxDepth: &maxDepth, res: &result)
+            return result.val
+        }else{
+            //BFS
+            return BFSFindBottomLeftValue(root)
+        }
+    }
+    
+    func BFSFindBottomLeftValue(_ root: TreeNode?) -> Int{
+        var q = [root!]
+        var res: TreeNode!
+        var index = 0
+        while index < q.count {
+            res = q[index]
+            index += 1
+            
+            if let r = res.right{
+                q.append(r)
+            }
+            if let l = res.left{
+                q.append(l)
+            }
+        }
+        return res.val
+    }
+    
+    func recursivelyFindBottomLeftValue(_ root: TreeNode?, depth: Int, maxDepth: inout Int, res: inout TreeNode ){
+        guard let node = root else { return }
+        if maxDepth < depth {
+            maxDepth = depth
+            res = node
+        }
+        recursivelyFindBottomLeftValue(node.left, depth: depth + 1, maxDepth: &maxDepth, res: &res)
+        recursivelyFindBottomLeftValue(node.right, depth: depth + 1, maxDepth: &maxDepth, res: &res)
+    }
+
+    
+    /**
      540. Single Element in a Sorted Array
      */
     func singleNonDuplicate(_ nums: [Int]) -> Int {
