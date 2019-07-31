@@ -120,6 +120,30 @@ public extension Solution{
     
     
     /**
+     88. Merge Sorted Array
+     */
+    func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
+        var j_end = n - 1
+        var i_end = m - 1
+        
+        for i in stride(from: nums1.count - 1, to: -1, by: -1){
+            if j_end < 0 {
+                nums1[i] = nums1[i_end]
+                i_end -= 1
+            }else if i_end < 0 {
+                nums1[i] = nums2[j_end]
+                j_end -= 1
+            }else if nums1[i_end] >= nums2[j_end]{
+                nums1[i] = nums1[i_end]
+                i_end -= 1
+            }else{ //nums1[i_end] < nums2[j_end]
+                nums1[i] = nums2[j_end]
+                j_end -= 1
+            }
+        }
+    }
+
+    /**
      100. Same Tree
      */
     func isSameTree(_ p: TreeNode?, _ q: TreeNode?) -> Bool {
