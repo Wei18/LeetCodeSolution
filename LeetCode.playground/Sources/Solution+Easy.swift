@@ -375,6 +375,24 @@ public extension Solution{
     
     
     /**
+     283. Move Zeroes
+     */
+    func moveZeroes(_ nums: inout [Int]) {
+        var i = 0
+        
+        for k in nums.indices{
+            if nums[k] != 0{
+                nums[i] = nums[k]
+                i += 1
+            }
+        }
+        
+        for j in i..<nums.endIndex{
+            nums[j] = 0
+        }
+    }
+
+    /**
      344. Reverse String
      */
     func reverseString(_ s: String) -> String {
