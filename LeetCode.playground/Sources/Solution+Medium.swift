@@ -59,7 +59,7 @@ public extension Solution{
         var dict: [Int: Int] = [:]
         
         nums.forEach{ num in
-            if let found = dict[num]{
+            if dict[num] != nil {
                 dict[num] = nil
             }else{
                 dict[num] = 1

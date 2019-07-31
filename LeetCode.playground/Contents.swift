@@ -38,3 +38,6 @@ print("Compiled")
 //
 //let c = Convertor(50, type: 16)
 //print(c.result)
+
+let test = SortSolution.test()
+print(test)
