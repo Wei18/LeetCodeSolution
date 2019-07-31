@@ -144,6 +144,29 @@ public extension Solution{
     }
 
     
+    /**
+     66. Plus One
+     */
+    func plusOne(_ digits: [Int]) -> [Int] {
+        var nums = digits
+        
+        nums[nums.count - 1] += 1
+        
+        for i in stride(from: nums.count-1, to: 0, by: -1){
+            if nums[i] == 10, i > 0{
+                nums[i] = 0
+                nums[i-1] += 1
+            }
+        }
+        
+        if nums[0] == 10{
+            nums[0] = 0
+            nums.insert(1, at: 0)
+        }
+        
+        return nums
+    }
+
     
     /**
      104. Maximum Depth of Binary Tree
