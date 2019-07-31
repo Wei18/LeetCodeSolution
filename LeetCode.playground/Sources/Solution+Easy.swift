@@ -833,6 +833,25 @@ public extension Solution{
 
     
     /**
+     876. Middle of the Linked List
+     */
+    func middleNode(_ head: ListNode?) -> ListNode? {
+        /*
+         Think about incrasableSingle / incrasableDouble
+         */
+        
+        var incrasableSingle = head
+        var incrasableDouble = head
+        
+        while let _ = incrasableDouble?.next {
+            incrasableSingle = incrasableSingle?.next
+            incrasableDouble = incrasableDouble?.next?.next
+        }
+        
+        return incrasableSingle
+    }
+
+    /**
      965. Univalued Binary Tree
      */
     func isUnivalTree(_ root: TreeNode?) -> Bool {
