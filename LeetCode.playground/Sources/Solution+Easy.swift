@@ -169,6 +169,23 @@ public extension Solution{
 
     
     /**
+     83. Remove Duplicates from Sorted List
+     */
+    func deleteDuplicates(_ head: ListNode?) -> ListNode? {
+        var node = head
+        
+        while let found = node?.next {
+            if node?.val == found.val{
+                node?.next = found.next
+            }else{
+                node = found
+            }
+        }
+        
+        return head
+    }
+
+    /**
      104. Maximum Depth of Binary Tree
      */
     func maxDepth(_ root: TreeNode?) -> Int {
@@ -756,6 +773,15 @@ public extension Solution{
 }
 
 extension Solution{
+    public class ListNode {
+        public var val: Int
+        public var next: ListNode?
+        public init(_ val: Int) {
+            self.val = val
+            self.next = nil
+        }
+    }
+    
     public class TreeNode {
         public var val: Int
         public var left: TreeNode?
