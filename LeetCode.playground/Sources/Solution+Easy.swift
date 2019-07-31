@@ -644,6 +644,35 @@ public extension Solution{
     
     
     /**
+     617. Merge Two Binary Trees
+     */
+    func mergeTrees(_ t1: TreeNode?, _ t2: TreeNode?) -> TreeNode? {
+        if t1 == nil {
+            return t2
+        }else{
+            recursivelyMergeTrees(t1, t2)
+            return t1
+        }
+    }
+    
+    func recursivelyMergeTrees(_ t1: TreeNode?, _ t2: TreeNode?){
+        t1?.val += t2?.val ?? 0
+        
+        if t1?.left != nil || t2?.left != nil{
+            if t1?.left == nil{
+                t1?.left = TreeNode(0)
+            }
+            mergeTrees(t1?.left, t2?.left)
+        }
+        if t1?.right != nil || t2?.right != nil{
+            if t1?.right == nil{
+                t1?.right = TreeNode(0)
+            }
+            mergeTrees(t1?.right, t2?.right)
+        }
+    }
+
+    /**
      657. Robot Return to Origin
      */
     func judgeCircle(_ moves: String) -> Bool {
