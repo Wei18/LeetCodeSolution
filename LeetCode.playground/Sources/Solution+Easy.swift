@@ -382,6 +382,31 @@ public extension Solution{
     }
     
     /**
+     371. Sum of Two Integers
+     */
+    func getSum(_ a: Int, _ b: Int) -> Int {
+        /*pf
+         0 + 0 = 00
+         1 + 0 = 10
+         0 + 1 = 01
+         1 + 1 = 10 //carry
+         
+         x0 = a (xor) b
+         c0 = (a & b) << 1 //carry
+         a + b = x0 + c0
+         
+         if has x1 = x0 (xor) c0, c1 = (x0 & c0) << 1
+         that mean x0 + c0 = x1 + c1
+         while cN == 0, a + b = xN + cN = xN
+         */
+        if b == 0 { return a }
+        let xor = a ^ b
+        let and = a & b
+        let carry = and << 1
+        return getSum(xor, carry)
+    }
+
+    /**
      412. Fizz Buzz
      */
     enum FizzBuzz: String{
