@@ -233,6 +233,31 @@ public extension Solution{
         return []
     }
     
+    
+    /**
+     202. Happy Number
+     */
+    func isHappy(_ n: Int) -> Bool {
+        var record = [Int: Int]()
+        return sumOfSquares(n, set: &record) == 1
+    }
+    
+    func sumOfSquares(_ n: Int, set: inout [Int: Int]) -> Int {
+        set[n] = 1
+        var n = n
+        var newN = 0
+        while n > 0 {
+            let modNum = n % 10
+            newN = newN + modNum * modNum
+            n /= 10
+        }
+        
+        if set[newN] != nil {
+            return newN
+        }else{
+            return sumOfSquares(newN, set: &set)
+        }
+    }
 
     /**
      225. Implement Stack using Queues
