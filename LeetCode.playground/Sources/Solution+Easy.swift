@@ -885,6 +885,27 @@ public extension Solution{
         return 0
     }
     
+    
+    /**
+     1103. Distribute Candies to People
+
+     */
+    func distributeCandies(_ candies: Int, _ num_people: Int) -> [Int] {
+        
+        var result = Array(repeating: 0, count: num_people)
+        var reminder = candies
+        var n = 0
+        
+        while reminder > 0 {
+            let given = n + 1
+            result[n % num_people] += min(given, reminder)
+            reminder -= given
+            n += 1
+        }
+        
+        return result
+    }
+
 }
 
 extension Solution{
