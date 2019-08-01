@@ -53,6 +53,32 @@ public extension Solution{
     
     
     /**
+     129. Sum Root to Leaf Numbers
+     */
+    
+    func sumNumbers(_ root: TreeNode?) -> Int {
+        return recursivelySumNumbers(root, previous: 0)
+    }
+    
+    func recursivelySumNumbers(_ root: TreeNode?, previous: Int) -> Int{
+        guard let node = root else { return 0 }
+        
+        func isLeaf(_ root: TreeNode) -> Bool{
+            return root.left == nil && root.right == nil
+        }
+        
+        if isLeaf(node) {
+            node.val += previous
+            return node.val
+        }else{
+            node.val = (node.val + previous) * 10
+            let l = recursivelySumNumbers(node.left, previous: node.val)
+            let r = recursivelySumNumbers(node.right, previous: node.val)
+            return l + r
+        }
+    }
+
+    /**
      260. Single Number III
      */
     func singleNumber(_ nums: [Int]) -> [Int] {
