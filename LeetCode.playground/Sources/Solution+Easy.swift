@@ -209,6 +209,31 @@ public extension Solution{
         return head
     }
 
+    
+    /**
+     101. Symmetric Tree
+     */
+    func isSymmetric(_ root: TreeNode?) -> Bool {
+        guard let root = root else { return true }
+        return DFSIsSymmetric(root.left, root.right)
+    }
+    
+    func DFSIsSymmetric(_ left: TreeNode?, _ right: TreeNode?) -> Bool {
+        guard let l = left, let r = right else {
+            /*
+             both are nil will return true, otherwise return false
+             */
+            return left === right
+        }
+        
+        if l.val != r.val {
+            return false
+        }else{
+            return DFSIsSymmetric(l.left, r.right)
+                && DFSIsSymmetric(l.right, r.left)
+        }
+    }
+
     /**
      104. Maximum Depth of Binary Tree
      */
