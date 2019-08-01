@@ -214,8 +214,12 @@ public extension Solution{
      101. Symmetric Tree
      */
     func isSymmetric(_ root: TreeNode?) -> Bool {
-        guard let root = root else { return true }
-        return DFSIsSymmetric(root.left, root.right)
+        if Bool.random(){
+            guard let root = root else { return true }
+            return DFSIsSymmetric(root.left, root.right)
+        }else{
+            return BFSIsSymmetric(root)
+        }
     }
     
     func DFSIsSymmetric(_ left: TreeNode?, _ right: TreeNode?) -> Bool {
@@ -232,6 +236,34 @@ public extension Solution{
             return DFSIsSymmetric(l.left, r.right)
                 && DFSIsSymmetric(l.right, r.left)
         }
+    }
+    
+    func BFSIsSymmetric(_ root: TreeNode?) -> Bool {
+        guard let root = root else { return true }
+        
+        var qLeft: [TreeNode?] = [root.left]
+        var qRight: [TreeNode?] = [root.right]
+        
+        while !qLeft.isEmpty && !qRight.isEmpty {
+            let oLeft = qLeft.removeFirst()
+            let oRight = qRight.removeFirst()
+            
+            if oLeft === oRight{
+                continue
+            }
+            
+            guard
+                let left = oLeft,
+                let right = oRight,
+                left.val == right.val
+                else { return false }
+            
+            qLeft.append(left.left)
+            qLeft.append(left.right)
+            qRight.append(right.right)
+            qRight.append(right.left)
+        }
+        return true
     }
 
     /**
@@ -264,7 +296,7 @@ public extension Solution{
     
     func DFSLevelOrderBottom(_ root: TreeNode?, _ floor: Int, _ res: inout [[Int]]){
         guard let node = root else { return }
-        var nextFloor = floor + 1
+        let nextFloor = floor + 1
         
         if floor < res.count {
             res[floor].append(node.val)
