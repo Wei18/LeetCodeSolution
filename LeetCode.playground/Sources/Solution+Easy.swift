@@ -227,6 +227,31 @@ public extension Solution{
         return max(right, left, currentCount)
     }
     
+    
+    /**
+     107. Binary Tree Level Order Traversal II
+     */
+    func levelOrderBottom(_ root: TreeNode?) -> [[Int]] {
+        var result: [[Int]] = []
+        DFSLevelOrderBottom(root, 0, &result)
+        return result.reversed()
+    }
+    
+    func DFSLevelOrderBottom(_ root: TreeNode?, _ floor: Int, _ res: inout [[Int]]){
+        guard let node = root else { return }
+        var nextFloor = floor + 1
+        
+        if floor < res.count {
+            res[floor].append(node.val)
+        }else{
+            res.append([node.val])
+        }
+        
+        DFSLevelOrderBottom(node.left, nextFloor, &res)
+        DFSLevelOrderBottom(node.right, nextFloor, &res)
+    }
+
+    
     /**
      111. Minimum Depth of Binary Tree
      */
@@ -662,13 +687,13 @@ public extension Solution{
             if t1?.left == nil{
                 t1?.left = TreeNode(0)
             }
-            mergeTrees(t1?.left, t2?.left)
+            recursivelyMergeTrees(t1?.left, t2?.left)
         }
         if t1?.right != nil || t2?.right != nil{
             if t1?.right == nil{
                 t1?.right = TreeNode(0)
             }
-            mergeTrees(t1?.right, t2?.right)
+            recursivelyMergeTrees(t1?.right, t2?.right)
         }
     }
 
