@@ -405,6 +405,36 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     206. Reverse Linked List
+     */
+    func reverseList(_ head: ListNode?) -> ListNode? {
+        return iterativelyReverseList(head)
+    }
+    
+    func iterativelyReverseList(_ head: ListNode?) -> ListNode? {
+        var current: ListNode? = head
+        var previous: ListNode? = nil
+        
+        while current != nil {
+            /* swap 3 listnode
+             example:
+             head: 1 -> 2 -> 3 -> 4
+             keep        :   2, 3, 4, nil,
+             current.next: nil, 1, 2,   3,
+             previous    :   1, 2, 3,   4,
+             current     :   2, 3, 4, nil,
+             */
+            let keep = current?.next
+            current?.next = previous
+            previous = current
+            current = keep
+        }
+        
+        return previous
+    }
+
     /**
      225. Implement Stack using Queues
      */
