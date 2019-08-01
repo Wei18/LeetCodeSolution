@@ -29,6 +29,68 @@ public extension Solution{
         return r
     }
     
+    
+    /**
+     12. Integer to Roman
+     */
+    func intToRoman(_ num: Int) -> String {
+        enum Roman: Int{
+            case I = 1
+            case V = 5
+            case X = 10
+            case L = 50
+            case C = 100
+            case D = 500
+            case M = 1000
+            var string: String{
+                switch self {
+                case .I: return "I"
+                case .V: return "V"
+                case .X: return "X"
+                case .L: return "L"
+                case .C: return "C"
+                case .D: return "D"
+                case .M: return "M"
+                }
+            }
+        }
+        
+        func replace(_ num: Int, lower: Roman, middle: Roman, upper: Roman) -> String{
+            precondition(num < 10)
+            var romanString = ""
+            switch num {
+            case 0:
+                break
+            case 1...3:
+                romanString = (0..<num-0).reduce(romanString, { (r, _) in r + lower.string })
+            case 4:
+                romanString = lower.string + middle.string
+            case 5...8:
+                romanString = middle.string
+                fallthrough
+            case 6...8:
+                romanString = (0..<num-5).reduce(romanString, { (r, _) in r + lower.string })
+            case 9:
+                romanString = lower.string + upper.string
+            default:
+                break
+            }
+            return romanString
+        }
+        
+        let thousands =  num / 1000
+        let hundreds  = (num % 1000) / 100
+        let tens      = (num %  100) /  10
+        let ones      = (num %   10)
+        
+        var r: String
+        r  = replace(thousands, lower: .M, middle: .M, upper: .M)
+        r += replace(hundreds, lower: .C, middle: .D, upper: .M)
+        r += replace(tens, lower: .X, middle: .L, upper: .C)
+        r += replace(ones, lower: .I, middle: .V, upper: .X)
+        return r
+    }
+
     /**
      102. Binary Tree Level Order Traversal
      */
