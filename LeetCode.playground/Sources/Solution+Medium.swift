@@ -201,6 +201,60 @@ public extension Solution{
     
     
     /**
+     445. Add Two Numbers II
+     */
+    func addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+        if l1 == nil{
+            return l2
+        }else if l2 == nil{
+            return l1
+        }
+        
+        var stack1 = [l1!]
+        var stack2 = [l2!]
+        
+        var tmp: ListNode?
+        tmp = l1
+        while let next = tmp?.next{
+            stack1.append(next)
+            tmp = next
+        }
+        
+        tmp = l2
+        while let next = tmp?.next{
+            stack2.append(next)
+            tmp = next
+        }
+        
+        var carry = 0
+        var last: ListNode?
+        while !stack1.isEmpty || !stack2.isEmpty {
+            let s1 = stack1.popLast()
+            let s2 = stack2.popLast()
+            var sum = (s1?.val ?? 0) + (s2?.val ?? 0)
+            if carry != 0 {
+                sum += carry
+                carry = 0
+            }
+            if sum >= 10{
+                carry = sum / 10
+                sum -= 10
+            }
+            s1?.val = sum
+            s2?.val = sum
+            last = s1 ?? s2
+        }
+        
+        if carry > 0 {
+            let new = ListNode(carry)
+            new.next = last
+            return new
+        }else{
+            return last
+        }
+    }
+
+    /**
      462. Minimum Moves to Equal Array Elements II
      */
     func minMoves2(_ nums: [Int]) -> Int {
