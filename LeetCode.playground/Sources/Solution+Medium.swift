@@ -115,6 +115,30 @@ public extension Solution{
     
     
     /**
+     113. Path Sum II
+     */
+    func pathSum(_ root: TreeNode?, _ sum: Int) -> [[Int]] {
+        return DFSPathSum(root, sum)
+    }
+    
+    func DFSPathSum(_ root: TreeNode?, _ sum: Int) -> [[Int]] {
+        //nested function
+        func isLeaf(_ node: TreeNode) -> Bool{
+            return node.left === node.right
+        }
+        
+        guard let node = root else { return [] }
+        //preorder
+        if isLeaf(node), sum == node.val {
+            return [[sum]]
+        }else{
+            let leftDFS = DFSPathSum(node.left, sum - node.val)
+            let rightDFS = DFSPathSum(node.right, sum - node.val)
+            return (leftDFS + rightDFS).map{ [node.val] + $0 }
+        }
+    }
+
+    /**
      129. Sum Root to Leaf Numbers
      */
     
