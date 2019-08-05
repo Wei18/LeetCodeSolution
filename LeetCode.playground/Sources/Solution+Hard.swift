@@ -9,6 +9,27 @@
 public extension Solution{
     
     /**
+     145. Binary Tree Postorder Traversal
+     */
+    func postorderTraversal(_ root: TreeNode?) -> [Int] {
+        var stack = [root]
+        var res: [Int] = []
+        while !stack.isEmpty{
+            guard let node = stack.removeLast() else { continue }
+            res.append(node.val)
+            
+            if let l = node.left{
+                stack.append(l)
+            }
+            if let r = node.right{
+                stack.append(r)
+            }
+        }
+        
+        return res.reversed()
+    }
+
+    /**
      765. Couples Holding Hands
      */
     func minSwapsCouples(_ row: [Int]) -> Int {
