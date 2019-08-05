@@ -241,10 +241,15 @@ public extension Solution{
      515. Find Largest Value in Each Tree Row
      */
     func largestValues(_ root: TreeNode?) -> [Int] {
-        var res: [Int] = []
-        DFSLargestValues(root, depth: 0, result: &res)
-        return res
+        if Bool.random(){
+            var res: [Int] = []
+            DFSLargestValues(root, depth: 0, result: &res)
+            return res
+        }else{
+            return BFSLargestValues(root)
+        }
     }
+    
     func DFSLargestValues(_ root: TreeNode?, depth: Int, result: inout [Int]){
         guard let node = root else { return }
         //preorder
@@ -255,6 +260,37 @@ public extension Solution{
         }
         DFSLargestValues(node.left, depth: depth + 1, result: &result)
         DFSLargestValues(node.right, depth: depth + 1, result: &result)
+    }
+    
+    func BFSLargestValues(_ root: TreeNode?) -> [Int] {
+        guard let node = root else { return [] }
+        var queue = [node]
+        var res: [Int] = []
+        var currentFloor = 0
+        
+        //I wanna know the same floor of queue
+        while !queue.isEmpty{
+            
+            //assume that its are the same floor
+            for _ in queue.indices{
+                let q = queue.removeFirst()
+                
+                if currentFloor >= res.count{
+                    res.append(q.val)
+                }else{
+                    res[currentFloor] = max(res[currentFloor], q.val)
+                }
+                
+                if let l = q.left{
+                    queue.append(l)
+                }
+                if let r = q.right{
+                    queue.append(r)
+                }
+            }
+            currentFloor += 1
+        }
+        return res
     }
 
     /**
