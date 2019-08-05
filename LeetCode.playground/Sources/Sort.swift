@@ -42,6 +42,12 @@ public class SortSolution{
         return nums
     }
     
+    func quickSort(_ nums: [Int]) -> [Int]{
+        var nums = nums
+        quick(&nums, lo: nums.startIndex, hi: nums.endIndex-1)
+        return nums
+    }
+    
     public static func test() -> Bool {
         let o = SortSolution()
         let test = [1, 3, 35, 675, 26, 7, 14, 6, 67, 8431, 56, 21, 78]
@@ -49,11 +55,43 @@ public class SortSolution{
         let r_insertionSort = o.insertionSort(test)
         let r_shellSort = o.shellSort(test)
         let r_mergeSort = o.mergeSort(test)
+        let r_quickSort = o.quickSort(test)
         return r_selectionSort == r_insertionSort
             && r_shellSort == r_insertionSort
             && r_mergeSort == r_insertionSort
+            && r_quickSort == r_insertionSort
     }
 }
+
+//MARK:- QuickSort
+private extension SortSolution{
+    func quick(_ nums: inout [Int], lo: Int, hi: Int){
+        if hi <= lo { return }
+        let j = partition(&nums, lo, hi)
+        quick(&nums, lo:  lo, hi: j-1)
+        quick(&nums, lo: j+1, hi: hi)
+    }
+    
+    func partition<T: Comparable>(_ a: inout [T], _ lo: Int, _ hi: Int) -> Int {
+        let pivot = a[lo]
+        var i = lo
+        var j = hi + 1
+        
+        while true {
+            repeat { i += 1 } while i != hi && a[i] < pivot
+            repeat { j -= 1 } while j != lo && a[j] > pivot
+            if i < j {
+                (a[i], a[j]) = (a[j], a[i])
+            } else {
+                break
+            }
+        }
+        (a[lo], a[j]) = (a[j], a[lo])
+        return j
+    }
+}
+
+//MARK:- MergeSort
 private extension SortSolution{
     func merge(_ a: inout [Int], lo: Int, hi: Int){
         let copied = a[lo...hi]
