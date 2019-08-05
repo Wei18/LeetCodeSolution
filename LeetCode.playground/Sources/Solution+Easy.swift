@@ -696,6 +696,26 @@ public extension Solution{
     
     
     /**
+     509. Fibonacci Number
+     */
+    func fib(_ N: Int) -> Int {
+        var res = Array(repeating: 0, count: N+1)
+        DPFib(N, res: &res)
+        return res[N]
+    }
+    func DPFib(_ N: Int, res dp: inout [Int]) {
+        if N < 2 {
+            dp[N] = N
+        }else if dp[N] == 0 {
+            DPFib(N-1, res: &dp)
+            DPFib(N-2, res: &dp)
+            dp[N] = dp[N-1] + dp[N-2]
+        }else{
+            
+        }
+    }
+
+    /**
      538. Convert BST to Greater Tree
      */
     func convertBST(_ root: TreeNode?) -> TreeNode? {
