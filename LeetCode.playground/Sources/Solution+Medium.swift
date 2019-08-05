@@ -238,6 +238,26 @@ public extension Solution{
 
     
     /**
+     515. Find Largest Value in Each Tree Row
+     */
+    func largestValues(_ root: TreeNode?) -> [Int] {
+        var res: [Int] = []
+        DFSLargestValues(root, depth: 0, result: &res)
+        return res
+    }
+    func DFSLargestValues(_ root: TreeNode?, depth: Int, result: inout [Int]){
+        guard let node = root else { return }
+        //preorder
+        if depth >= result.count {
+            result.append(node.val)
+        }else{
+            result[depth] = max(result[depth], node.val)
+        }
+        DFSLargestValues(node.left, depth: depth + 1, result: &result)
+        DFSLargestValues(node.right, depth: depth + 1, result: &result)
+    }
+
+    /**
      540. Single Element in a Sorted Array
      */
     func singleNonDuplicate(_ nums: [Int]) -> Int {
