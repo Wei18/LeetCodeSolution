@@ -776,6 +776,25 @@ public extension Solution{
     
     
     /**
+     566. Reshape the Matrix
+     */
+    func matrixReshape(_ nums: [[Int]], _ r: Int, _ c: Int) -> [[Int]] {
+        let old_r = nums.count
+        let old_c = nums.first?.count ?? 0
+        let total = old_c * old_r
+        guard total == r * c else { return nums }
+        
+        var resC = Array(repeating: 0, count: c)
+        var resR = Array(repeating: resC, count: r)
+        
+        for i in 0..<total{
+            resR[i/c][i%c] = nums[i/old_c][i%old_c]
+        }
+        
+        return resR
+    }
+
+    /**
      617. Merge Two Binary Trees
      */
     func mergeTrees(_ t1: TreeNode?, _ t2: TreeNode?) -> TreeNode? {
