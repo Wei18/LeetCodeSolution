@@ -66,6 +66,29 @@ public extension Solution{
     /**
      1147. Longest Chunked Palindrome Decomposition
      */
+    func longestDecomposition_1(_ text: String) -> Int {
+        let chars = Array(text)
+        var l = chars.startIndex
+        var r = chars.endIndex - 1
+        let mid = (l + r + 1) / 2
+        var ans = 0
+        while l < r {
+            let range = 0..<mid-l
+            var next  = range.upperBound
+            for i in range where chars[l...l+i] == chars[r-i...r] {
+                next = i + 1
+                ans += 2
+                if l + i + 1 == r - i {
+                    return ans
+                }else{
+                    break
+                }
+            }
+            l += next
+            r -= next
+        }
+        return ans + 1
+    }
     func longestDecomposition(_ text: String) -> Int {
         let s = Array(text)
         var result = 0
