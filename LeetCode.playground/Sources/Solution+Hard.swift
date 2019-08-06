@@ -60,4 +60,35 @@ public extension Solution{
      778. Swim in Rising Water
      */
     //Using Heap, refer to url: https://leetcode.com/submissions/detail/144698935/
+    
+    
+    
+    /**
+     1147. Longest Chunked Palindrome Decomposition
+     */
+    func longestDecomposition(_ text: String) -> Int {
+        let s = Array(text)
+        var result = 0
+        
+        let end = s.endIndex - 1
+        var i = s.startIndex
+        var j = s.startIndex
+        
+        //ghiabcdefhelloadamhelloabcdefghi
+        while i <= end{
+            while j <= end {
+                let range1 = i...(i+j)
+                let range2 = (end-i-j)...(end-i)
+                j += 1
+                guard s[range1] == s[range2] else { continue }
+                result += 1
+                break
+            }
+            
+            i += j
+            j = 0
+        }
+        return result
+    }
+
 }
