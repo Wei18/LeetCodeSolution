@@ -48,7 +48,7 @@ public extension Solution{
     /**
      23. Merge k Sorted Lists
      */
-    func NorAlgorithm_mergeKLists(_ lists: [ListNode?]) -> ListNode? {
+    func Algorithm_mergeKLists(_ lists: [ListNode?]) -> ListNode? {
         
         func merge(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
             guard let l1 = l1 else { return l2 }
@@ -65,15 +65,36 @@ public extension Solution{
             return head
         }
         
-        var queue = lists.compactMap{ $0 }
-        while queue.count > 1 {
-            let q1 = queue.removeFirst()
-            let q2 = queue.removeFirst()
-            if let m  = merge(q1, q2){
-                queue.append(m)
+        
+        if Bool.random(){
+            /*
+             //bad algorithm
+             var head: ListNode?
+             for i in lists.indices{
+             head = merge(head, lists[i])
+             }
+             return head
+             */
+            //half faster algorithm
+            var queue = lists.compactMap{ $0 }
+            while queue.count > 1 {
+                let q1 = queue.removeFirst()
+                let q2 = queue.removeFirst()
+                if let m  = merge(q1, q2){
+                    queue.append(m)
+                }
             }
+            return queue.first
+        }else{
+            //mergeSort
+            if lists.count <= 1{
+                return lists.first ?? nil
+            }
+            let mid = lists.count / 2
+            let left = Algorithm_mergeKLists(Array(lists[..<mid]))
+            let right = Algorithm_mergeKLists(Array(lists[mid...]))
+            return merge(left, right)
         }
-        return queue.first
     }
 
     /**
