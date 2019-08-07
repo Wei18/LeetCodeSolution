@@ -142,6 +142,57 @@ public extension Solution{
         return r
     }
 
+    
+    /**
+     15. 3Sum
+     */
+    func threeSum(_ nums: [Int]) -> [[Int]] {
+        /*
+         Think about 3 ptr, i, l, r
+         */
+        let nums = nums.sorted(by: <)
+        var res: [[Int]] = []
+        
+        var i = nums.startIndex
+        while i < nums.endIndex {
+            let iVal = nums[i]
+            
+            var l = i + 1
+            var r = nums.endIndex - 1
+            while l < r{
+                let lVal = nums[l]
+                let rVal = nums[r]
+                
+                let sum = iVal + lVal + rVal
+                if sum == 0 {
+                    res.append([iVal, lVal, rVal])
+                }else if sum > 0{
+                    r -= 1
+                    continue
+                }else{ //<0
+                    l += 1
+                    continue
+                }
+                
+                //skip duplicates of lVal
+                while l < r && nums[l] == lVal{
+                    l += 1
+                }
+                //skip duplicates of rVal
+                while l < r && nums[r] == rVal{
+                    r -= 1
+                }
+            }
+            
+            //skip duplicates of iVal
+            while i < nums.endIndex && nums[i] == iVal{
+                i += 1
+            }
+        }
+        
+        return res
+    }
+
     /**
      102. Binary Tree Level Order Traversal
      */
