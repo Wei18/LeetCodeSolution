@@ -526,6 +526,44 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     226. Invert Binary Tree
+     */
+    func invertTree(_ root: TreeNode?) -> TreeNode? {
+        if Bool.random(){
+            //bfs
+            guard let node = root else { return nil }
+            var queue = [node]
+            
+            while !queue.isEmpty{
+                let q = queue.removeFirst()
+                (q.left, q.right) = (q.right, q.left)
+                
+                if let l = q.left{
+                    queue.append(l)
+                }
+                if let r = q.right{
+                    queue.append(r)
+                }
+            }
+            return node
+        }else{
+            //dfs
+            return dfsInvertTree(root)
+        }
+    }
+    
+    func dfsInvertTree(_ root: TreeNode?) -> TreeNode?{
+        //postorder
+        guard let node = root else { return nil }
+        let l = dfsInvertTree(node.left)
+        let r = dfsInvertTree(node.right)
+        node.left = r
+        node.right = l
+        return node
+    }
+
     /**
      232. Implement Queue using Stacks
      */
