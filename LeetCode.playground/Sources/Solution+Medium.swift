@@ -227,6 +227,35 @@ public extension Solution{
         return res
     }
 
+    
+    /**
+     19. Remove Nth Node From End of List
+     */
+    func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
+        var stack: [ListNode] = []
+        
+        var node = head
+        while let found = node {
+            stack.append(found)
+            node = node?.next
+        }
+        
+        //or stack.remove(at: stack.count - n)
+        var removed: ListNode?
+        for _ in 0..<n{
+            removed = stack.popLast()
+        }
+        
+        let currentList = stack.popLast()
+        currentList?.next = removed?.next
+        
+        if currentList == nil {
+            return removed?.next
+        }else{
+            return head
+        }
+    }
+
     /**
      102. Binary Tree Level Order Traversal
      */
