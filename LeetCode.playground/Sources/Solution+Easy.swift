@@ -49,6 +49,27 @@ public extension Solution{
     
     
     /**
+     20. Valid Parentheses
+     */
+    func isValid(_ s: String) -> Bool {
+        var leftBraces: [Character] = []
+        for i in s.indices{
+            switch s[i] {
+            case "(", "[", "{":
+                leftBraces.append(s[i])
+            default:
+                let rightBrace = s[i]
+                guard let leftBrace  = leftBraces.popLast() else { return false }
+                let match = "\(leftBrace)\(rightBrace)"
+                if !"()[]{}".contains(match) {
+                    return false
+                }
+            }
+        }
+        return leftBraces.isEmpty
+    }
+
+    /**
      21. Merge Two Sorted Lists
      */
     func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
