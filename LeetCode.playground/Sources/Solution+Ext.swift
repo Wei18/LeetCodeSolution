@@ -1,6 +1,17 @@
 import Foundation
 
 extension Solution{
+    class ListBuilder{
+        static func get(_ nums: [Int]) -> ListNode? {
+            let nodes = nums.map{ ListNode($0) }
+            var head: ListNode?
+            for i in nodes.indices{
+                head?.next = nodes[i]
+                head = nodes[i]
+            }
+            return nodes.first
+        }
+    }
     
     class TreeBuilder{
         static func get(_ nums: [Int?]) -> TreeNode? {
