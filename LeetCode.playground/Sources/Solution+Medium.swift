@@ -193,6 +193,40 @@ public extension Solution{
         return res
     }
 
+    
+    /**
+     17. Letter Combinations of a Phone Number
+     */
+    func letterCombinations(_ digits: String) -> [String] {
+        guard !digits.isEmpty else { return [] }
+        var mapping = [Character: [String]]()
+        mapping["2"] = ["a", "b", "c"]
+        mapping["3"] = ["d", "e", "f"]
+        mapping["4"] = ["g", "h", "i"]
+        mapping["5"] = ["j", "k", "l"]
+        mapping["6"] = ["m", "n", "o"]
+        mapping["7"] = ["p", "q", "r", "s"]
+        mapping["8"] = ["t", "u", "v"]
+        mapping["9"] = ["w", "x", "y", "z"]
+        
+        func mix(_ a: [String], _ b: [String]) -> [String]{
+            guard !a.isEmpty else { return b }
+            var res: [String] = []
+            for i in a.indices{
+                res += b.map{ a[i] + $0 }
+            }
+            return res
+        }
+        
+        let mappingRes = digits.compactMap{ mapping[$0] }
+        var res = [String]()
+        for i in 0..<mappingRes.endIndex{
+            res = mix(res, mappingRes[i])
+        }
+        
+        return res
+    }
+
     /**
      102. Binary Tree Level Order Traversal
      */
