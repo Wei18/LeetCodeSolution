@@ -9,6 +9,42 @@
 public extension Solution{
     
     /**
+     4. Median of Two Sorted Arrays
+     */
+    func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+        let m = nums1.count
+        let n = nums2.count
+        let medianIdx = (m + n) / 2
+        
+        var arr = Array(repeating: 0, count: m + n)
+        var i = 0
+        var j = 0
+        for a in 0..<arr.count{
+            if i == m{
+                arr[a] = nums2[j]
+                j += 1
+            }
+            else if j == n{
+                arr[a] = nums1[i]
+                i += 1
+            }
+            else if nums1[i] < nums2[j]{
+                arr[a] = nums1[i]
+                i += 1
+            }else{
+                arr[a] = nums2[j]
+                j += 1
+            }
+        }
+        
+        if (m + n) % 2 == 0{
+            return Double(arr[medianIdx] + arr[medianIdx-1]) / 2
+        }else{
+            return Double(arr[medianIdx])
+        }
+    }
+
+    /**
      145. Binary Tree Postorder Traversal
      */
     func postorderTraversal(_ root: TreeNode?) -> [Int] {
