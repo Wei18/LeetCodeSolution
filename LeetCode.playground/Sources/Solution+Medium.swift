@@ -10,6 +10,35 @@ import Foundation
 //MARK:- Medium
 public extension Solution{
     
+    
+    /**
+     2. Add Two Numbers
+     */
+    func reverseOrder_addTwoNumbers(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+        let head = sumOf2List(l1, l2)
+        var carry = 0
+        var node = head
+        while let found = node {
+            found.val += carry
+            carry = found.val / 10
+            found.val %= 10
+            if carry > 0, node?.next == nil {
+                node?.next = ListNode(0)
+            }
+            node = node?.next
+        }
+        return head
+    }
+    
+    func sumOf2List(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+        guard let l1 = l1 else { return l2 }
+        guard let l2 = l2 else { return l1 }
+        l1.val += l2.val
+        l1.next = sumOf2List(l1.next, l2.next)
+        return l1
+    }
+
+    
     /**
      3. Longest Substring Without Repeating Characters
      */
