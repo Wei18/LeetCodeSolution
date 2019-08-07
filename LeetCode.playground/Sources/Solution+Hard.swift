@@ -44,6 +44,34 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     23. Merge k Sorted Lists
+     */
+    func badAlgorithm_mergeKLists(_ lists: [ListNode?]) -> ListNode? {
+        
+        func merge(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+            guard let l1 = l1 else { return l2 }
+            guard let l2 = l2 else { return l1 }
+            var head: ListNode
+            if l1.val < l2.val {
+                head = l1
+                head.next = merge(head.next, l2)
+            }
+            else{
+                head = l2
+                head.next = merge(head.next, l1)
+            }
+            return head
+        }
+        
+        var head: ListNode?
+        for i in lists.indices{
+            head = merge(head, lists[i])
+        }
+        return head
+    }
+
     /**
      145. Binary Tree Postorder Traversal
      */
