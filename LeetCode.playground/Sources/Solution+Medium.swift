@@ -274,6 +274,29 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     33. Search in Rotated Sorted Array
+     */
+    func search(_ nums: [Int], _ target: Int) -> Int {
+        //2 ptr: l, r
+        var l = nums.startIndex
+        var r = nums.endIndex-1
+        while l <= r {
+            if nums[l] == target {
+                return l
+            }
+            else if nums[r] == target{
+                return r
+            }
+            else{
+                r -= 1
+                l += 1
+            }
+        }
+        return -1
+    }
+
     /**
      102. Binary Tree Level Order Traversal
      */
