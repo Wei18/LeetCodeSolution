@@ -421,6 +421,25 @@ public extension Solution{
     
     
     /**
+     169. Majority Element
+     */
+    func majorityElement(_ nums: [Int]) -> Int {
+        var dict: [Int: Int] = [:]
+        var currentMaxValue = -1
+        dict[currentMaxValue] = 0
+        
+        for i in nums.indices{
+            dict[nums[i], default: 0] += 1
+            
+            if dict[nums[i]]! > dict[currentMaxValue]! {
+                currentMaxValue = nums[i]
+            }
+        }
+        
+        return currentMaxValue
+    }
+
+    /**
      202. Happy Number
      */
     func isHappy(_ n: Int) -> Bool {
@@ -911,7 +930,7 @@ public extension Solution{
     /**
      704. Binary Search
      */
-    func search(_ nums: [Int], _ target: Int) -> Int {
+    func a704search(_ nums: [Int], _ target: Int) -> Int {
         var lo = 0
         var hi = nums.count - 1
         
