@@ -232,6 +232,24 @@ public extension Solution{
      19. Remove Nth Node From End of List
      */
     func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
+        if Bool.random(){
+            let current = DFSRemoveNthFromEnd(head, n)
+            return (current == n) ? head?.next : head
+        }else{
+            return NorRemoveNthFromEnd(head, n)
+        }
+    }
+    
+    func DFSRemoveNthFromEnd(_ root: ListNode?, _ n: Int) -> Int{
+        guard let node = root?.next else { return 1 }
+        let current = DFSRemoveNthFromEnd(node, n)
+        if current == n{
+            root?.next = root?.next?.next
+        }
+        return current + 1
+    }
+    
+    func NorRemoveNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
         var stack: [ListNode] = []
         
         var node = head
