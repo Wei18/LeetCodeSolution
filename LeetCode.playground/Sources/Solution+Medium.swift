@@ -60,6 +60,28 @@ public extension Solution{
     
     
     /**
+     11. Container With Most Water
+     */
+    func maxArea(_ height: [Int]) -> Int {
+        var l = height.startIndex
+        var r = height.endIndex - 1
+        var res = 0
+        
+        while l < r {
+            let h = min( height[l], height[r] )
+            let b = r - l
+            res = max(b*h, res)
+            if height[l] < height[r]{
+                l += 1
+            }else{
+                r -= 1
+            }
+        }
+        
+        return res
+    }
+
+    /**
      12. Integer to Roman
      */
     func intToRoman(_ num: Int) -> String {
