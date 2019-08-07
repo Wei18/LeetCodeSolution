@@ -47,6 +47,25 @@ public extension Solution{
         return (res > Int32.max || res < Int32.min) ? 0 : res
     }
     
+    
+    /**
+     21. Merge Two Sorted Lists
+     */
+    func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+        guard let l1 = l1 else { return l2 }
+        guard let l2 = l2 else { return l1 }
+        
+        var head: ListNode
+        if l1.val < l2.val{
+            head = l1
+            head.next = mergeTwoLists(head.next, l2)
+        }else{
+            head = l2
+            head.next = mergeTwoLists(head.next, l1)
+        }
+        return head
+    }
+
     /**
      13. Roman to Integer
      */
@@ -784,7 +803,7 @@ public extension Solution{
         let total = old_c * old_r
         guard total == r * c else { return nums }
         
-        var resC = Array(repeating: 0, count: c)
+        let resC = Array(repeating: 0, count: c)
         var resR = Array(repeating: resC, count: r)
         
         for i in 0..<total{
