@@ -387,6 +387,43 @@ public extension Solution{
     }
 
     /**
+     322. Coin Change
+     */
+    func coinChange(_ coins: [Int], _ amount: Int) -> Int {
+        //edge
+        guard amount > 0, !coins.isEmpty else { return 0 }
+        //initial dp
+        var dp = [Int](repeatElement(Int.max, count: amount + 1))
+        dp[0] = 0
+        //dp[2] == 1(coin 2) or 2(2coins 1)
+        //compute conditions
+        /*
+         loop amount from 1 to amount
+         and then loop coins to calculate minimum coins to reach amount.
+         */
+        for i in 1...amount {
+            for j in 0..<coins.count {
+                if coins[j] > i {
+                    //no combination coins to reach current amount.
+                    continue
+                }
+                else if dp[i - coins[j]] == Int.max{
+                    //the index of (i - coins[j]) should have been calculated,
+                    //if value == Int.max, we dont need it.
+                    continue
+                }
+                else{
+                    let currentCount = dp[i - coins[j]] + 1
+                    let previousCount = dp[i]
+                    dp[i] = min(currentCount, previousCount)
+                }
+            }
+        }
+        
+        return dp[amount] == Int.max ? -1 : dp[amount]
+    }
+
+    /**
      442. Find All Duplicates in an Array
      */
     func findDuplicates(_ nums: [Int]) -> [Int] {
