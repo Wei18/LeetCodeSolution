@@ -468,6 +468,28 @@ public extension Solution{
     
     
     /**
+     136. Single Number
+     */
+    func singleNumber(_ nums: [Int]) -> Int {
+        /*
+         edge: count of arr of nums > 0
+         using XOR (^)
+         definition XOR
+         == return 0
+         != return 1
+         */
+        
+        guard !nums.isEmpty else { return 0 }
+        var single = nums.first!
+        for i in 1..<nums.endIndex {
+            single ^= nums[i]
+        }
+        return single
+        //using swift
+        //return nums.reduce(0, ^)
+    }
+
+    /**
      167. Two Sum II - Input array is sorted
      */
     func twoSum167(_ numbers: [Int], _ target: Int) -> [Int] {
