@@ -702,6 +702,42 @@ public extension Solution{
     }
     
     /**
+     350. Intersection of Two Arrays II
+     */
+    func intersect(_ nums1: [Int], _ nums2: [Int]) -> [Int] {
+        /*
+         sorted nums1
+         using binary search
+         check elements of num2
+         */
+        
+        var nums1 = nums1.sorted()
+        func searchPop(_ nums: inout [Int], target: Int) -> Int?{
+            var lo = nums.startIndex
+            var hi = nums.endIndex
+            while lo < hi {
+                let mid = (lo + hi) >> 1
+                if nums[mid] > target {
+                    hi -= 1
+                }else if nums[mid] < target{
+                    lo += 1
+                }else{
+                    return nums.remove(at: mid)
+                }
+            }
+            return nil
+        }
+        
+        var res: [Int] = []
+        for i in nums2.indices{
+            if let t = searchPop(&nums1, target: nums2[i]){
+                res.append(t)
+            }
+        }
+        return res
+    }
+
+    /**
      371. Sum of Two Integers
      */
     func getSum(_ a: Int, _ b: Int) -> Int {
