@@ -563,6 +563,22 @@ public extension Solution{
         return previous
     }
 
+    
+    /**
+     217. Contains Duplicate
+     */
+    func containsDuplicate(_ nums: [Int]) -> Bool {
+        var dict: [Int: Int] = [:]
+        
+        for i in nums.indices {
+            dict[nums[i], default: 0] += 1
+            if dict[nums[i]]! > 1 {
+                return true
+            }
+        }
+        return false
+    }
+
     /**
      225. Implement Stack using Queues
      */
