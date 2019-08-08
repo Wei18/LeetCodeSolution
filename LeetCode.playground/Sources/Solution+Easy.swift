@@ -204,6 +204,31 @@ public extension Solution{
     
     
     /**
+     69. Sqrt(x)
+     */
+    func mySqrt(_ x: Int) -> Int {
+        guard x > 0 else { return 0 }
+        /*
+         recursively binary search left, right*/
+        return recursivelyMySqrt(0, x, x)
+    }
+    
+    func recursivelyMySqrt(_ l: Int, _ r: Int, _ target: Int) -> Int{
+        guard l <= r else { return r }
+        let mid = (l + r) / 2
+        let sqrt = mid * mid
+        if sqrt > target {
+            return recursivelyMySqrt(l, mid-1, target)
+        }
+        else if sqrt < target {
+            return recursivelyMySqrt(mid+1, r, target)
+        }
+        else {
+            return mid
+        }
+    }
+
+    /**
      88. Merge Sorted Array
      */
     func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
