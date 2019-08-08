@@ -674,6 +674,43 @@ public extension Solution{
     
     
     /**
+     739. Daily Temperatures
+     */
+    func dailyTemperatures(_ T: [Int]) -> [Int] {
+        /*
+         record res of array of int and count of array is equal to array T
+         using 2 ptrs: i, j
+         loop i
+         loop j < T.endIndex
+         recode index of j - i of first value of T[i] < T[j]
+         added: skip while curValue == nextValue
+         added: hanlde index -1 for sameValue
+         */
+        
+        var res = Array(repeating: 0, count: T.count)
+        var i = T.startIndex
+        while i < T.endIndex {
+            var j = i + 1
+            let cur = T[i]
+            while j < T.endIndex {
+                let future = T[j]
+                if cur < future {
+                    res[i] = j - i
+                    break
+                }
+                j += 1
+            }
+            
+            while i+1 < T.endIndex, cur == T[i+1]{
+                res[i+1] = max(0, res[i] - 1)
+                i += 1
+            }
+            i += 1
+        }
+        return res
+    }
+
+    /**
      763. Partition Labels
      */
     func partitionLabels(_ S: String) -> [Int] {
