@@ -47,6 +47,42 @@ public extension Solution{
         return (res > Int32.max || res < Int32.min) ? 0 : res
     }
     
+    /**
+     13. Roman to Integer
+     */
+    func romanToInt(_ s: String) -> Int {
+        let roman = [
+            "I": 1,
+            "V": 5,
+            "X": 10,
+            "L": 50,
+            "C": 100,
+            "D": 500,
+            "M": 1000]
+        
+        var res = 0
+        var i = 0
+        
+        func get(_ i: String.Index) -> Int{
+            return roman[s[i].description]!
+        }
+        
+        for (i,_) in s.enumerated(){
+            guard i + 1 < s.count else { break }
+            let curI = s.index(s.startIndex, offsetBy: i)
+            let nextI = s.index(s.startIndex, offsetBy: i + 1)
+            let curVal = get(curI)
+            if curVal < get(nextI) {
+                res -= curVal
+            }else{
+                res += curVal
+            }
+        }
+        
+        let lastI = s.index(before: s.endIndex)
+        res += get(lastI)
+        return res
+    }
     
     /**
      20. Valid Parentheses
@@ -88,40 +124,16 @@ public extension Solution{
     }
 
     /**
-     13. Roman to Integer
+     26. Remove Duplicates from Sorted Array
      */
-    func romanToInt(_ s: String) -> Int {
-        let roman = [
-            "I": 1,
-            "V": 5,
-            "X": 10,
-            "L": 50,
-            "C": 100,
-            "D": 500,
-            "M": 1000]
-        
-        var res = 0
-        var i = 0
-        
-        func get(_ i: String.Index) -> Int{
-            return roman[s[i].description]!
+    func removeDuplicates(_ nums: inout [Int]) -> Int {
+        guard nums.count > 1 else { return nums.count }
+        var count = 1
+        for i in 1..<nums.endIndex where nums[i] != nums[i-1] {
+            nums[count] = nums[i]
+            count += 1
         }
-        
-        for (i,_) in s.enumerated(){
-            guard i + 1 < s.count else { break }
-            let curI = s.index(s.startIndex, offsetBy: i)
-            let nextI = s.index(s.startIndex, offsetBy: i + 1)
-            let curVal = get(curI)
-            if curVal < get(nextI) {
-                res -= curVal
-            }else{
-                res += curVal
-            }
-        }
-        
-        let lastI = s.index(before: s.endIndex)
-        res += get(lastI)
-        return res
+        return count
     }
     
     /**
