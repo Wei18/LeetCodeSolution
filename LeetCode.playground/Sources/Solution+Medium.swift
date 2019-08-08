@@ -297,6 +297,34 @@ public extension Solution{
         return -1
     }
 
+    
+    /**
+     98. Validate Binary Search Tree
+     */
+    func isValidBST(_ root: TreeNode?) -> Bool {
+        /*
+         Using Depth Search First, PreOrder, Recursive
+         Definition edge: return true
+         Compute r.val > n.val > l.vale
+         */
+        
+        func isValidBST_rec(_ root: TreeNode?, _ minVal: Int?, _ maxVal: Int?) -> Bool {
+            guard let node = root else { return true }
+            
+            if let minVal = minVal, node.val <= minVal {
+                return false
+            }
+            else if let maxVal = maxVal, node.val >= maxVal {
+                return false
+            }
+            else{
+                return isValidBST_rec(node.left, minVal, node.val)
+                    && isValidBST_rec(node.right, node.val, maxVal)
+            }
+        }
+        return isValidBST_rec(root, nil, nil)
+    }
+
     /**
      102. Binary Tree Level Order Traversal
      */
