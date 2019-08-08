@@ -136,6 +136,38 @@ public extension Solution{
         return count
     }
     
+    
+    /**
+     28. Implement strStr()
+     */
+    func strStr(_ haystack: String, _ needle: String) -> Int {
+        /*
+         edge
+         return non
+         init
+         compute index of haystack
+         if first character of haystck is equal to first of needle
+         then loop check next until count of needle
+         return -1 whil index of haystack reach endindex.
+         */
+        
+        let haystack = ArraySlice(haystack)
+        let needle = ArraySlice(needle)
+        guard !needle.isEmpty else { return 0 }
+        guard haystack.count >= needle.count else { return -1 }
+        
+        var i = haystack.startIndex
+        while i < haystack.endIndex-needle.endIndex+1 {
+            let subHay = haystack[i..<(i+needle.count)]
+            if subHay == needle {
+                return i
+            }
+            i += 1
+        }
+        
+        return -1
+    }
+
     /**
      35. Search Insert Position
      */
