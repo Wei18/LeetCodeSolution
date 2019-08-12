@@ -706,6 +706,55 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     234. Palindrome Linked List
+     */
+    func isPalindrome(_ head: ListNode?) -> Bool {
+        /*
+         required: O(n) time and O(1) space
+         get middle of nodes
+         reverse nodes from the middle to the end.
+         compare both headList and reversedList
+         return falst while unexpected until the middle then return true
+         */
+        func getMiddle(_ head: ListNode?) -> ListNode? {
+            var slow = head
+            var fast = head?.next
+            while let found = fast?.next?.next {
+                slow = slow?.next //1, 2 3 4
+                fast = found      //2, 4 6 8
+            }
+            if let found = fast?.next {
+                //for count of nodes is odd
+                slow = slow?.next
+            }
+            return slow
+        }
+        
+        func reverse(_ head: ListNode?) -> ListNode?{
+            guard let nextNode = head?.next else { return head }
+            let node = reverse(nextNode)
+            head?.next?.next = head
+            head?.next = nil
+            return node
+        }
+        
+        let middle = getMiddle(head)
+        let reversed = reverse(middle)
+        middle?.next = nil
+        
+        var nodes: (ListNode?, ListNode?) = (head, reversed)
+        while let no0 = nodes.0, let no1 = nodes.1 {
+            if no0.val != no1.val {
+                return false
+            }
+            nodes.0 = no0.next
+            nodes.1 = no1.next
+        }
+        return true
+    }
+
     /**
      268. Missing Number
      */
