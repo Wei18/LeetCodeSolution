@@ -299,6 +299,18 @@ public extension Solution{
 
     
     /**
+     94. Binary Tree Inorder Traversal
+     */
+    func inorderTraversal_DFS(_ root: TreeNode?) -> [Int] {
+        //DFS, Recursive solution, inorder
+        guard let node = root else { return [] }
+        let lA = inorderTraversal_DFS(node.left)
+        let cur = [node.val]
+        let rA = inorderTraversal_DFS(node.right)
+        return lA + cur + rA
+    }
+
+    /**
      98. Validate Binary Search Tree
      */
     func isValidBST(_ root: TreeNode?) -> Bool {
