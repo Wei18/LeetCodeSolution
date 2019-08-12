@@ -301,6 +301,35 @@ public extension Solution{
     /**
      94. Binary Tree Inorder Traversal
      */
+    func inorderTraversal(_ root: TreeNode?) -> [Int] {
+        if Bool.random(){
+            return inorderTraversal_DFS(root)
+        }
+        else{
+            return inorderTraversal_BFS(root)
+        }
+    }
+    func inorderTraversal_BFS(_ root: TreeNode?) -> [Int] {
+        //BFS, Iterative solution, inorder?
+        guard let node = root else { return [] }
+        var result: [Int] = []
+        var stack: [TreeNode] = []
+        
+        func push(_ n: TreeNode?) {
+            guard let node = n else { return }
+            stack.append(node)
+            push(node.left)
+        }
+        
+        push(node)
+        while !stack.isEmpty {
+            let pop = stack.removeLast()
+            result.append(pop.val)
+            push(pop.right)
+        }
+        
+        return result
+    }
     func inorderTraversal_DFS(_ root: TreeNode?) -> [Int] {
         //DFS, Recursive solution, inorder
         guard let node = root else { return [] }
