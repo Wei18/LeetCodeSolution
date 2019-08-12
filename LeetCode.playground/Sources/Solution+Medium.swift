@@ -451,6 +451,33 @@ public extension Solution{
         return dp[amount] == Int.max ? -1 : dp[amount]
     }
 
+    
+    /**
+     328. Odd Even Linked List
+     */
+    func oddEvenList(_ head: ListNode?) -> ListNode? {
+        /*
+         loop
+         get first odd and first even nodes
+         group all odd and even nodes
+         at least, added first even node at the end of odd node.
+         */
+        var oddList: ListNode? = head
+        var evenList: ListNode? = head?.next
+        let firstOdd  = oddList
+        let firstEven = evenList
+        while let odd = oddList?.next?.next {
+            oddList?.next = odd
+            oddList = odd
+            
+            let even = evenList?.next?.next
+            evenList?.next = even
+            evenList = even
+        }
+        oddList?.next = firstEven
+        return firstOdd
+    }
+
     /**
      442. Find All Duplicates in an Array
      */
