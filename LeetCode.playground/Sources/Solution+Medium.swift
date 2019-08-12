@@ -398,6 +398,61 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     148. Sort List
+     */
+    class MergeSortListNode{
+        func sortList(_ head: ListNode?) -> ListNode? {
+            /*
+             get last node.
+             use merge sort
+             divide list to 2 list.
+             merge its
+             */
+            var last = head
+            while let node = last?.next {
+                last = node
+            }
+            return mergeSort(head, last)
+        }
+        
+        private func mergeSort(_ lo: ListNode?, _ hi: ListNode?) -> ListNode?{
+            guard lo !== hi else { return lo }
+            let (before, middle) = divide(lo, hi)
+            let l: ListNode? = mergeSort(lo, before)
+            let r: ListNode? = mergeSort(middle, hi)
+            return merge(l, r)
+        }
+        
+        private func divide(_ lo: ListNode?, _ hi: ListNode?) -> (ListNode?, ListNode?){
+            var single = lo
+            var double = lo?.next
+            while double !== hi, let fF = double?.next?.next {
+                single = single?.next //1 2 3 4
+                double = fF           //2 4 6 8
+            }
+            let before = single
+            let middle = single?.next
+            before?.next = nil //In order to split 2 lists.
+            return (before, middle)
+        }
+        
+        
+        private func merge(_ l: ListNode?, _ r: ListNode?) -> ListNode? {
+            guard let l = l else { return r }
+            guard let r = r else { return l }
+            if l.val < r.val {
+                l.next = merge(l.next, r)
+                return l
+            }else{
+                r.next = merge(r.next, l)
+                return r
+            }
+        }
+
+    }
+
     /**
      260. Single Number III
      */
