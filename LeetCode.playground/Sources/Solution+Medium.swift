@@ -574,6 +574,21 @@ public extension Solution{
         return firstOdd
     }
 
+    
+    /**
+     347. Top K Frequent Elements
+     */
+    func topKFrequent(_ nums: [Int], _ k: Int) -> [Int] {
+        let r = nums
+            .reduce(into: [:], { (r, i) in
+                r[i, default: 0] += 1
+            })
+            .sorted(by: { $0.value > $1.value })
+            .map{ $0.key }
+            .prefix(k)
+        return Array(r)
+    }347. Top K Frequent Elements
+
     /**
      442. Find All Duplicates in an Array
      */
