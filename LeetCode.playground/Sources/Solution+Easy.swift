@@ -933,7 +933,41 @@ public extension Solution{
         return (x ^ y).nonzeroBitCount
     }
 
-
+    /**
+     447. Number of Boomerangs
+     */
+    func numberOfBoomerangs(_ points: [[Int]]) -> Int {
+        func getDistance(_ p0: [Int], _ p1: [Int]) -> Int {
+            let a = p0[0] - p1[0]
+            let b = p0[1] - p1[1]
+            return a * a + b * b
+        }
+        
+        var res = 0
+        for i in points.indices {
+            var dict: [Int: Int] = [:]
+            
+            for j in points.indices {
+                guard i != j else { continue }
+                let distance = getDistance(points[i], points[j])
+                dict[distance, default: 0] += 1
+            }
+            
+            for val in dict.values {
+                //Combination
+                //from the number of n elements
+                //get the number of k elements.
+                // n!/(k!)(n-k)!
+                // while k == 2, n * (n-1) / 2
+                // each distance > 2 can get 2 result
+                if val >= 2{
+                    res += val * (val - 1) /* / 2 * 2 */
+                }
+            }
+        }
+        
+        return res
+    }
 
     /**
      476. Number Complement
