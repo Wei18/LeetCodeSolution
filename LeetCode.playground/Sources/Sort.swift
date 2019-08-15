@@ -26,7 +26,7 @@ public class SortSolution{
     func shellSort(_ nums: [Int]) -> [Int]{
         var nums = nums
         var h = 1
-        while (h < 3/nums.count) {
+        while (h < nums.count/3) {
             h = 3 * h + 1
         }
         while h >= 1 {
