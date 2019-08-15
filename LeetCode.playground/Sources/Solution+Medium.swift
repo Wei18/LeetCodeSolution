@@ -587,7 +587,7 @@ public extension Solution{
             .map{ $0.key }
             .prefix(k)
         return Array(r)
-    }347. Top K Frequent Elements
+    }
 
     /**
      442. Find All Duplicates in an Array

@@ -725,7 +725,7 @@ public extension Solution{
                 slow = slow?.next //1, 2 3 4
                 fast = found      //2, 4 6 8
             }
-            if let found = fast?.next {
+            if let _ = fast?.next {
                 //for count of nodes is odd
                 slow = slow?.next
             }
