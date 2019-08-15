@@ -128,3 +128,99 @@ private extension SortSolution{
         merge(&nums, lo: lo, hi: hi)
     }
 }
+
+//MARK:- Heap
+extension SortSolution{
+    struct Heap<T> {
+        typealias Priority = (T, T) -> Bool
+        
+        fileprivate typealias Index = Int
+        
+        var elements: [T]
+        
+        private let priority: Priority
+        
+        init(elements: [T] = [], priority: @escaping Priority) {
+            self.elements = elements
+            self.priority = priority
+            buildHeap()
+        }
+        
+        private mutating func buildHeap() {
+            for index in (0 ..< count / 2).reversed() {
+                siftDown(index)
+            }
+        }
+        
+        var isEmpty: Bool { return elements.isEmpty }
+        
+        var count: Int { return elements.count }
+        
+        var peek: T? { return elements.first }
+        
+        mutating func push(_ element: T) {
+            elements.append(element)
+            siftUp(elements.endIndex-1)
+        }
+        
+        mutating func pop() -> T? {
+            guard !isEmpty else { return nil }
+            swapElement(at: elements.startIndex, with: elements.endIndex-1)
+            let element = elements.removeLast()
+            siftDown(elements.startIndex)
+            return element
+        }
+        
+        private mutating func siftUp(_ index: Index) {
+            guard !index.isRoot else { return }
+            guard isHigherPriority(at: index, than: index.parent) else { return }
+            swapElement(at: index, with: index.parent)
+            siftUp(index.parent)
+        }
+        
+        private mutating func siftDown(_ index: Index) {
+            guard let nextIndex = getHigherPriority(from: index) else { return }
+            swapElement(at: index, with: nextIndex)
+            siftDown(nextIndex)
+        }
+        
+        private func isHigherPriority(at first: Index, than second: Index) -> Bool {
+            return priority(elements[first], elements[second])
+        }
+        
+        private func highestPriorityIndex(of parent: Index, and child: Index) -> Index {
+            guard child < count else { return parent }
+            return isHigherPriority(at: child, than: parent) ? child : parent
+        }
+        
+        private func getHigherPriority(from parent: Index) -> Index? {
+            let ifLeft  = highestPriorityIndex(of: parent, and: parent.leftChild)
+            let ifRight = highestPriorityIndex(of: ifLeft, and: parent.rightChild)
+            return parent == ifRight ? nil : ifRight
+        }
+        
+        private mutating func swapElement(at firstIndex: Int, with secondIndex: Int) {
+            guard firstIndex != secondIndex else { return }
+            elements.swapAt(firstIndex, secondIndex)
+        }
+        
+        public mutating func sort() -> [T] {
+            var result: [T] = []
+            while count > 0, let e = pop() {
+                result.append(e)
+            }
+            return result
+        }
+    }
+}
+private extension SortSolution.Heap.Index{
+    
+    var isRoot: Bool { return self == 0 }
+    
+    var leftChild: Int { return (2 * self) + 1 }
+    
+    var rightChild: Int { return (2 * self) + 2 }
+    
+    var parent: Int { return (self - 1) / 2 }
+}
+
