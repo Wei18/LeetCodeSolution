@@ -468,6 +468,31 @@ public extension Solution{
     
     
     /**
+     118. Pascal's Triangle
+     */
+    func generate(_ numRows: Int) -> [[Int]] {
+        //initial
+        var dp: [[Int]] = Array(repeating: [], count: numRows)
+        
+        for i in dp.indices{
+            dp[i] = Array(repeating: 1, count: i+1)
+        }
+        
+        //edge condition
+        guard dp.count >= 2 else { return dp }
+        
+        //compute
+        for i in 2..<dp.endIndex{
+            for j in 1..<dp[i].endIndex-1{
+                dp[i][j] = dp[i-1][j-1] + dp[i-1][j]
+            }
+        }
+        
+        return dp
+    }
+
+
+    /**
      136. Single Number
      */
     func singleNumber(_ nums: [Int]) -> Int {
