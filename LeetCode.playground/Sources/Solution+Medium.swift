@@ -994,6 +994,44 @@ public extension Solution{
         return result
     }
 
+    
+    /**
+     623. Add One Row to Tree
+     */
+    func DFS_addOneRow(_ root: TreeNode?, _ v: Int, _ d: Int){
+        guard let node = root else { return }
+        if d == 1 {
+            let newLeft = TreeNode(v)
+            newLeft.left = root?.left
+            node.left = newLeft
+            
+            let newRight = TreeNode(v)
+            newRight.right = root?.right
+            node.right = newRight
+        }
+        else{
+            DFS_addOneRow(node.left, v, d-1)
+            DFS_addOneRow(node.right, v, d-1)
+        }
+    }
+    
+    func addOneRow(_ root: TreeNode?, _ v: Int, _ d: Int) -> TreeNode? {
+        /*
+         Use recursive + inOrder,
+         define edge conditions.
+         if current depth == 1, assign new node with val is v to left and right.
+         */
+        if d == 1 {
+            let node = TreeNode(v)
+            node.left = root
+            return node
+        }else{
+            DFS_addOneRow(root, v, d-1)
+            return root
+        }
+        
+    }
+
     /**
      735. Asteroid Collision
      */
