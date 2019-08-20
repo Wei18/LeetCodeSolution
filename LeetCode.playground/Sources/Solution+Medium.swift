@@ -299,6 +299,99 @@ public extension Solution{
 
     
     /**
+     54. Spiral Matrix
+     */
+    func spiralOrder(_ matrix: [[Int]]) -> [Int] {
+        /*
+         Think about 4 directions of up, right, down, left, and then loop it.
+         Check matrix is visited
+         */
+        let m = matrix.count
+        let n = matrix.first?.count ?? 0
+        guard m > 0, n > 0 else { return [] }
+        var visited = Array(repeating: Array(repeating: false, count: n), count: m)
+        var result: [Int] = []
+        
+        func isAllVisited(_ x: Int, _ y: Int) -> Bool {
+            //top
+            if y > 0, !visited[x][y-1] {
+                return false
+            }
+            //right
+            if x+1 < m, !visited[x+1][y] {
+                return false
+            }
+            //bottom
+            if y+1 < n, !visited[x][y+1] {
+                return false
+            }
+            //left
+            if x > 0, !visited[x-1][y] {
+                return false
+            }
+            //self
+            if !visited[x][y] {
+                return false
+            }else{
+                return true
+            }
+        }
+        
+        func record(_ x: Int, _ y: Int){
+            result.append(matrix[x][y])
+            visited[x][y] = true
+        }
+        
+        enum Way: Int{
+            case right
+            case down
+            case left
+            case up
+        }
+        
+        var i = 0
+        var j = 0
+        var way = Way.right
+        
+        while !isAllVisited(i, j) {
+            //record result
+            record(i, j)
+            
+            //next point
+            switch way {
+            case .right where j+1 < n && !visited[i][j+1]:
+                j += 1
+            case .right where i+1 < m:
+                i += 1
+                way = .down
+                
+            case .down where i+1 < m && !visited[i+1][j]:
+                i += 1
+            case .down where j > 0:
+                j -= 1
+                way = .left
+                
+            case .left where j > 0 && !visited[i][j-1]:
+                j -= 1
+            case .left where i > 0:
+                i -= 1
+                way = .up
+                
+            case .up where i > 0 && !visited[i-1][j]:
+                i -= 1
+            case .up where j+1 < n:
+                j += 1
+                way = .right
+                
+            default:
+                break
+            }
+        }
+        
+        return result
+    }
+
+    /**
      94. Binary Tree Inorder Traversal
      */
     func inorderTraversal(_ root: TreeNode?) -> [Int] {
@@ -805,7 +898,6 @@ public extension Solution{
         }
         
         var strs = strs.sorted(by: { $0.count > $1.count })
-        var result = -1
         for i in strs.indices{
             let substring = strs[i]
             var isResult = true
@@ -815,11 +907,10 @@ public extension Solution{
                 break
             }
             if isResult{
-                result = max(result, substring.count)
+                return substring.count
             }
         }
-        
-        return result
+        return -1
     }
 
 
