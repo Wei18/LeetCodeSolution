@@ -1014,7 +1014,38 @@ public extension Solution{
             DFS_addOneRow(node.right, v, d-1)
         }
     }
-    
+    func BFS_addOneRow(_ root: TreeNode?, _ v: Int, _ d: Int) -> TreeNode? {
+        guard let found = root else { return nil }
+        var queue = [found]
+        var depth = 0
+        
+        while !queue.isEmpty {
+            let size = queue.endIndex
+            depth += 1
+            
+            for _ in 0..<size {
+                let node = queue.removeFirst()
+                
+                if let left = node.left {
+                    queue.append(left)
+                }
+                if let right = node.right {
+                    queue.append(right)
+                }
+                
+                guard depth == d - 1 else { continue }
+                
+                let newLeft = TreeNode(v)
+                newLeft.left = node.left
+                node.left = newLeft
+                
+                let newRight = TreeNode(v)
+                newRight.right = node.right
+                node.right = newRight
+            }
+        }
+        return root
+    }
     func addOneRow(_ root: TreeNode?, _ v: Int, _ d: Int) -> TreeNode? {
         /*
          Use recursive + inOrder,
@@ -1026,10 +1057,13 @@ public extension Solution{
             node.left = root
             return node
         }else{
-            DFS_addOneRow(root, v, d-1)
-            return root
+            if Bool.random() {
+                DFS_addOneRow(root, v, d-1)
+                return root
+            }else{
+                return BFS_addOneRow(root, v, d)
+            }
         }
-        
     }
 
     /**
