@@ -772,6 +772,35 @@ public extension Solution{
     
     
     /**
+     470. Implement Rand10() Using Rand7()
+     */
+    func rand10() -> Int {
+        // /*
+        func rand7() -> Int {
+            return Int.random(in: 0...7)
+        }
+        // */
+        /*
+         1. get the larger ragne
+         and the chance for generating a random integer
+         should be same.
+         2. get the largest number that number % 10 == 0
+         3. add 1 to match result from [0...9] to [1...10]
+         */
+        func rand49() -> Int{
+            //[1...7] + [0...6]*7 = [1...49]
+            return rand7() + (rand7()-1) * 7
+        }
+        
+        var x: Int
+        repeat {
+            x = rand49()
+        } while x > 40
+        
+        return x % 10 + 1
+    }
+
+    /**
      513. Find Bottom Left Tree Value
      */
     func findBottomLeftValue(_ root: TreeNode?) -> Int {
