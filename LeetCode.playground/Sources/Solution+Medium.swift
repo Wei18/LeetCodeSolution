@@ -911,6 +911,36 @@ public extension Solution{
 
     
     /**
+     814. Binary Tree Pruning
+     */
+    func pruneTree(_ root: TreeNode?) -> TreeNode? {
+        func isLeaf(_ root: TreeNode) -> Bool{
+            return root.left === root.right
+        }
+        func isPruning(_ root: TreeNode) -> Bool{
+            return root.val == 0 && isLeaf(root)
+        }
+        /*
+         Sould remove node which is leaf and value ss equal to 0.
+         Use recursive and one of postorder, inorder, preorder.
+         */
+        
+        //edge
+        guard let node = root else { return nil }
+        
+        //recursive, preorder
+        if let left = pruneTree(node.left), isPruning(left) {
+            node.left = nil
+        }
+        if let right = pruneTree(node.right), isPruning(right) {
+            node.right = nil
+        }
+        
+        return node
+    }
+
+
+    /**
      918. Maximum Sum Circular Subarray
      */
     func maxSubarraySumCircular(_ A: [Int]) -> Int {
