@@ -939,6 +939,32 @@ public extension Solution{
         return result
     }
     
+    
+    /**
+     560. Subarray Sum Equals K
+     */
+    func subarraySum(_ nums: [Int], _ k: Int) -> Int {
+        /*
+         if K equalt to sum[i, j]
+         that means  sum[i, j] = sum[0, j] - sum[0, i - 1],
+         rangeSum  = totalSum  - preSum
+         we have rangeSum, K and totalSum sum, we can find preSum.
+         so we record each of sum in loop.
+         if one of recorded sum equals to preSum, resultcount ++
+         */
+        var result = 0
+        var sum = 0
+        var dict: [Int: Int] = [:]
+        for i in nums.indices{
+            dict[sum, default: 0] += 1
+            sum += nums[i]
+            if let existCount = dict[sum-k] {
+                result += existCount
+            }
+        }
+        return result
+    }
+
     /**
      735. Asteroid Collision
      */
