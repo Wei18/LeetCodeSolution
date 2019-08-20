@@ -780,6 +780,49 @@ public extension Solution{
         return res
     }
 
+    
+    /**
+     522. Longest Uncommon Subsequence II
+     */
+    func findLUSlength(_ strs: [String]) -> Int {
+        /*
+         define edge:
+         return -1 if result is not found else return result.
+         and found the subsequence of strings like the maximum common factor
+         */
+        
+        func isSubsequence(_ subsequence: String, _ text: String) -> Bool {
+            guard subsequence.count <= text.count else { return false }
+            var i = subsequence.startIndex
+            var j = text.startIndex
+            while i < subsequence.endIndex, j < text.endIndex {
+                if subsequence[i] == text[j] {
+                    i = subsequence.index(after: i)
+                }
+                j = text.index(after: j)
+            }
+            return i == subsequence.endIndex
+        }
+        
+        var strs = strs.sorted(by: { $0.count > $1.count })
+        var result = -1
+        for i in strs.indices{
+            let substring = strs[i]
+            var isResult = true
+            
+            for j in strs.indices where i != j && isSubsequence(substring, strs[j]) {
+                isResult = false
+                break
+            }
+            if isResult{
+                result = max(result, substring.count)
+            }
+        }
+        
+        return result
+    }
+
+
     /**
      540. Single Element in a Sorted Array
      */
