@@ -1350,6 +1350,47 @@ public extension Solution{
         return incrasableSingle
     }
 
+    
+    /**
+     914. X of a Kind in a Deck of Cards
+     */
+    func hasGroupsSizeX(_ deck: [Int]) -> Bool {
+        /*
+         edge condtions:
+         Each group has exactly X (>=2) cards.
+         All the cards in each group have the same integer.
+         */
+        
+        //Group the same interger into dictionary
+        let dict = deck.reduce(into: [:], { r, c in
+            r[c, default: 0] += 1
+        })
+        
+        //Map dictionary to the number of cards
+        let numbers = dict.map{ $0.value }
+        
+        //Edge contdions X>=2
+        if numbers.contains(1) {
+            return false
+        }
+        
+        //GCD method
+        func gcd(_ a: Int, _ b: Int) -> Int {
+            return (b == 0) ? a : gcd(b, a % b)
+        }
+        
+        //Chceck all of numbers have the greatest common factor.
+        for i in 0..<numbers.endIndex-1 {
+            let numGCD = gcd(numbers[i], numbers[i+1])
+            if numGCD == 1 {
+                return false
+            }else{
+                continue
+            }
+        }
+        return true
+    }914. X of a Kind in a Deck of Cards
+
     /**
      965. Univalued Binary Tree
      */
