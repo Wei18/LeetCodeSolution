@@ -1389,7 +1389,41 @@ public extension Solution{
             }
         }
         return true
-    }914. X of a Kind in a Deck of Cards
+    }
+    
+    /**
+     942. DI String Match
+
+     */
+    func diStringMatch(_ S: String) -> [Int] {
+        /*
+         the count of result of array = the length of S + 1
+         when get char D, append high number and subract it by 1
+         elsewise
+         when get char I, append low number and add it by 1
+         */
+        
+        let s = Array(S)
+        var lo = s.startIndex
+        var hi = s.endIndex
+        var result: [Int] = []
+        
+        //handle with result until the count of result equals to the length of S
+        s.forEach{ c in
+            if c == "I" {
+                result.append(lo)
+                lo += 1
+            }else{
+                result.append(hi)
+                hi -= 1
+            }
+        }
+        
+        //Now, we can assume that lo == hi, so we can append last element into result
+        result.append(lo)
+        return result
+    }
+
 
     /**
      965. Univalued Binary Tree
