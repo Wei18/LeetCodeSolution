@@ -1386,6 +1386,21 @@ public extension Solution{
     
     
     /**
+     1047. Remove All Adjacent Duplicates In String
+     */
+    func removeDuplicates(_ S: String) -> String {
+        var arr: [Character] = []
+        S.forEach{ c in
+            if arr.last == c {
+                _ = arr.popLast()
+            }else{
+                arr.append(c)
+            }
+        }
+        return String(arr)
+    }
+
+    /**
      1103. Distribute Candies to People
 
      */
