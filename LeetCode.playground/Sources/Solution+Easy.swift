@@ -1171,6 +1171,64 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     633. Sum of Square Numbers
+     */
+    
+    func judgeSquareSum(_ c: Int) -> Bool {
+        /*
+         if a^2 + b^2 = c return true
+         so we need find a, b
+         make a in loop 0..<sqrt(c)
+         so we can detect b is satisfy requirements
+         
+         try to write binary search, two pointers, set as ref:
+         https://leetcode.com/problems/sum-of-square-numbers/discuss/104948/Swift-solution-Binary-Search-Set-Two-Pointers
+         */
+        
+        func twePointers(_ c: Int) -> Bool{
+            //left, right
+            //Note that left += 1, right -= 1.
+            let len = Int(sqrt(Double(c)))
+            var left = 0
+            var right = len
+            while left <= right {
+                let sum = left * left + right * right
+                if sum > c {
+                    right -= 1
+                }else if sum < c {
+                    left += 1
+                }else{
+                    return true
+                }
+            }
+            return false
+        }
+        
+        func setway(_ c: Int) -> Bool{
+            let len = Int(sqrt(Double(c)))
+            var aSet = Set<Int>()
+            for i in 0...len{
+                aSet.insert(i * i)
+                if aSet.contains(c - i * i){
+                    return true
+                }
+            }
+            return false
+        }
+        
+        switch (1...2).randomElement() {
+        case 1:
+            return twePointers(c)
+        case 2:
+            return setway(c)
+        default:
+            fatalError()
+        }
+    }
+
+
     /**
      657. Robot Return to Origin
      */
