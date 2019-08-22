@@ -1265,6 +1265,21 @@ public extension Solution{
     /**
      766. Toeplitz Matrix
      */
+    func isToeplitzMatrix_v3(_ matrix: [[Int]]) -> Bool {
+        /*
+         Note that loop once points which do not reach bottom or right.
+         (Mean that 0..<m-1, 0..<n-1)
+         Each point equals to them diagonal point.
+         */
+        let m = matrix.count
+        let n = matrix.first?.count ?? 0
+        for i in 0..<m-1 {
+            for j in 0..<n-1 where matrix[i][j] != matrix[i+1][j+1] {
+                return false
+            }
+        }
+        return true
+    }
     func isToeplitzMatrix_v2(_ matrix: [[Int]]) -> Bool {
         /*
          *In each diagonal all elements are the same
