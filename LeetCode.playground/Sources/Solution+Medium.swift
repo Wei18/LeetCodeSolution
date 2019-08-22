@@ -587,6 +587,47 @@ public extension Solution{
 
     }
 
+    
+    /**
+     228. Summary Ranges
+     */
+    func summaryRanges(_ nums: [Int]) -> [String] {
+        /*
+         Problem:
+         Given a sorted integer array without duplicates, return the summary of its ranges.
+         
+         Note:
+         0. Edge condition
+         1. Loop once
+         2. Result
+         3. Append string of combined start and end
+         4. Loop conditions:
+         the current number-1 != end, compute result
+         */
+        
+        guard !nums.isEmpty else { return [] }
+        guard nums.count > 1 else { return ["\(nums[0])"] }
+        
+        var result: [String] = []
+        var start = nums.first
+        var end = nums.first
+        
+        func update(){
+            let text = (start == end) ? "\(start!)" : "\(start!)->\(end!)"
+            result.append(text)
+        }
+        
+        for i in 1..<nums.endIndex {
+            if nums[i] - 1 != end {
+                update()
+                start = nums[i]
+            }
+            end = nums[i]
+        }
+        update()
+        return result
+    }
+
     /**
      260. Single Number III
      */
