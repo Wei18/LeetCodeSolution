@@ -1227,5 +1227,40 @@ public extension Solution{
         
         return max_so_far
     }
+    
+    
+    /**
+     939. Minimum Area Rectangle
+     */
+    func minAreaRect(_ points: [[Int]]) -> Int {
+        /*
+         Base on a point, p1 and find the other point, p2
+         that x2 > x1, y2 > y1, and point (x1, y2) and (x2, y1) esxit,
+         compute min area.
+         */
+        
+        let ptsSet = Set<[Int]>(points)
+        
+        let pts = points
+            .sorted(by: { $0[1] < $1[1] })
+            .sorted(by: { $0[0] < $1[0] })
+        
+        var minArea = Int.max
+        
+        for i in 0..<pts.endIndex-1{
+            let (x1, y1) = (pts[i][0], pts[i][1])
+            for j in i+1..<pts.endIndex{
+                let (x2, y2) = (pts[j][0], pts[j][1])
+                guard x2 > x1, y2 > y1 else { continue }
+                guard ptsSet.contains([x1, y2]) else { continue }
+                guard ptsSet.contains([x2, y1]) else { continue }
+                let area = (x2 - x1) * (y2 - y1)
+                minArea = min(minArea, area)
+            }
+        }
+        
+        return (minArea == Int.max) ? 0 : minArea
+    }
+
 
 }
