@@ -1262,7 +1262,107 @@ public extension Solution{
         }
     }
     
-    
+    /**
+     766. Toeplitz Matrix
+     */
+    func isToeplitzMatrix_v2(_ matrix: [[Int]]) -> Bool {
+        /*
+         *In each diagonal all elements are the same
+         *Compute index from top-left to bottom-right has the same element.
+         *Edge conditions: m > 0, n >0, return true at the end of the method.
+         *Reset value is -1, due to matrix[i][j] will be integers in range [0, 99]
+         *Use stack and append each diagonal all points
+         */
+        
+        let m = matrix.endIndex
+        let n = matrix.first?.endIndex ?? 0
+        guard m > 0, n > 0 else { return false }
+        
+        //Added each calculated points into stack
+        var stack: [(Int, Int)] = []
+        for i in 0..<m{
+            stack.append((i,0))
+        }
+        for j in 1..<n{
+            stack.append((0,j))
+        }
+        
+        //Compute
+        let reset = -1
+        var cur = reset
+        let bottomEdge = m-1
+        let rightEdge  = n-1
+        while !stack.isEmpty {
+            let (i,j) = stack.removeLast()
+            
+            //Compare
+            if cur == reset {
+                cur = matrix[i][j]
+            }else if cur != matrix[i][j] {
+                return false
+            }
+            
+            //Loop conditions
+            if i == bottomEdge || j == rightEdge {
+                cur = reset
+            }else{
+                let new = (i+1, j+1)
+                stack.append(new)
+            }
+        }
+        
+        return true
+    }
+    func isToeplitzMatrix_v1(_ matrix: [[Int]]) -> Bool {
+        /*
+         *In each diagonal all elements are the same
+         *Compute index from top-left to bottom-right has the same element.
+         *Edge conditions: m > 0, n >0, return true at the end of the method.
+         *Loop from bottom-left to top-right, and set while conditions.
+         *Reset value is -1, due to matrix[i][j] will be integers in range [0, 99]
+         */
+        
+        let m = matrix.endIndex
+        let n = matrix.first?.endIndex ?? 0
+        guard m > 0, n > 0 else { return false }
+        var i = m-1
+        var j = 0
+        let reset = -1
+        var cur = reset
+        
+        while !(j == n-1 && i == 0) {
+            print(i, j )
+            if cur == reset {
+                cur = matrix[i][j]
+            }else if cur != matrix[i][j] {
+                return false
+            }
+            
+            /*
+             if meet the bottom(i == m-1)
+             go to next J
+             repeat i -= 1, j -= 1
+             until j == 0 or i == 0
+             and reset cur
+             elsewise, i += 1, j += 1
+             */
+            if i == m-1 || j == n-1 {
+                j += 1
+                cur = reset
+                while true{
+                    if j == 0 || i == 0 { break }
+                    i -= 1
+                    j -= 1
+                }
+            }else{
+                i += 1
+                j += 1
+            }
+        }
+        
+        return true
+    }
+
     /**
      771. Jewels and Stones
      */
