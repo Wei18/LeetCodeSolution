@@ -1080,7 +1080,34 @@ public extension Solution{
         return node
     }
     
-    
+    /**
+     541. Reverse String II
+     */
+    func reverseStr(_ s: String, _ k: Int) -> String {
+        func reverse(_ arr: inout [Character], start: Int, end: Int){
+            var l = start, r = end
+            let mid = (l + r) / 2
+            while l <= mid {
+                (arr[l], arr[r]) = (arr[r], arr[l])
+                l += 1
+                r -= 1
+            }
+        }
+        
+        
+        var s: [Character] = Array(s)
+        
+        var idx = s.startIndex
+        
+        while idx < s.endIndex {
+            let endIndex = min(idx + k, s.endIndex) - 1
+            reverse(&s, start: idx, end: endIndex)
+            idx += 2 * k
+        }
+        
+        return String(s)
+    }
+
     /**
      557. Reverse Words in a String III
      */
