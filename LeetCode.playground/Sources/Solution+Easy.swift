@@ -1700,6 +1700,17 @@ public extension Solution{
     
     
     /**
+     1108. Defanging an IP Address
+     */
+    func defangIPaddr(_ address: String) -> String {
+        /*
+         split/components .
+         join [.]
+         */
+        return address.components(separatedBy: ".").joined(separator: "[.]")
+    }
+
+    /**
      1047. Remove All Adjacent Duplicates In String
      */
     func removeDuplicates(_ S: String) -> String {
