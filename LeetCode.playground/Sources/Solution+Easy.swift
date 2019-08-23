@@ -1636,11 +1636,31 @@ public extension Solution{
             }
         }
         
+        //bst + dfs
+        func bst(_ root: TreeNode?, _ L: Int, _ R: Int) -> Int {
+            //if root does not exist, return 0
+            guard let root = root else { return 0 }
+            
+            //if the root is too small/big, return the range sum for its respective adjacent one..
+            guard root.val >= L else { return bst(root.right, L, R) }
+            guard root.val <= R else { return bst(root.left, L, R) }
+            
+            //find sum from leftmost/rightmost possible node to root
+            let left = bst(root.left, L, R)
+            let right = bst(root.right, L, R)
+            
+            //return the sum from left->root + root + root<-right
+            return left + root.val + right
+        }
         
         if Bool.random(){
-            dfs(root)
+            return bst(root, L, R)
         }else{
-            bfs(root)
+            if Bool.random(){
+                dfs(root)
+            }else{
+                bfs(root)
+            }
         }
         return sum
     }
