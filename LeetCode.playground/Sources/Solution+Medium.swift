@@ -391,6 +391,66 @@ public extension Solution{
         return result
     }
 
+    
+    /**
+     61. Rotate List
+     */
+    func rotateRight(_ head: ListNode?, _ k: Int) -> ListNode? {
+        func length(_ head: ListNode?) -> Int{
+            var count = 0
+            var node = head
+            while let exist = node{
+                count += 1
+                node = node?.next
+            }
+            return count
+        }
+        
+        let count = length(head)
+        let offset = k % count
+        guard offset > 0 else { return head }
+        var slow = head
+        var fast = head
+        
+        //okay, I got the offset node.
+        //k: 5, offset: 0, fast: 1, slow: 1
+        //k: 1, offset: 1, fast: 2, slow: 1
+        //k: 2, offset: 2, fast: 3, slow: 1
+        //k: 3, offset: 3, fast: 4, slow: 1
+        //k: 4, offset: 4, fast: 5, slow: 1
+        for _ in 0..<offset{
+            fast = fast?.next
+        }
+        
+        //now I need reach last node.
+        //k: 5, offset: 0, fast: 5, slow: 5, rotatedHead = slow.nex
+        //k: 1, offset: 1, fast: 5, slow: 4, rotatedHead = slow.nex
+        //k: 2, offset: 2, fast: 5, slow: 3, rotatedHead = slow.nex
+        //k: 3, offset: 3, fast: 5, slow: 2, rotatedHead = slow.nex
+        //k: 4, offset: 4, fast: 5, slow: 1, rotatedHead = slow.nex
+        while fast?.next != nil {
+            slow = slow?.next
+            fast = fast?.next
+        }
+        
+        //loop list
+        fast?.next = head
+        //get rotatedHead
+        let new_head = slow?.next
+        //break loop
+        slow?.next = nil
+        
+        return new_head
+        
+        /*
+         Input: 1->2->3->4->5->NULL, k = 1
+         Explanation:
+         rotate 1 steps to the right: 5->1->2->3->4->NULL
+         rotate 2 steps to the right: 4->5->1->2->3->NULL
+         */
+    }
+
+
     /**
      94. Binary Tree Inorder Traversal
      */
