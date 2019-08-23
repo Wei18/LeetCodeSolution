@@ -1599,6 +1599,7 @@ public extension Solution{
         /*
          dfs, postorder
          bfs, queue
+         considering bst
          */
         var sum = 0
         
@@ -1616,7 +1617,31 @@ public extension Solution{
             dfs(node.right)
         }
         
-        dfs(root)
+        func bfs(_ root: TreeNode?) {
+            guard let node = root else { return }
+            var queue = [node]
+            while !queue.isEmpty {
+                let q = queue.removeFirst()
+                
+                if isInRange(q.val){
+                    sum += q.val
+                }
+                
+                if let l = q.left{
+                    queue.append(l)
+                }
+                if let r = q.right{
+                    queue.append(r)
+                }
+            }
+        }
+        
+        
+        if Bool.random(){
+            dfs(root)
+        }else{
+            bfs(root)
+        }
         return sum
     }
 
