@@ -1593,6 +1593,35 @@ public extension Solution{
     
     
     /**
+     938. Range Sum of BST
+     */
+    func rangeSumBST(_ root: TreeNode?, _ L: Int, _ R: Int) -> Int {
+        /*
+         dfs, postorder
+         bfs, queue
+         */
+        var sum = 0
+        
+        func isInRange(_ val: Int) -> Bool {
+            return L <= val && val <= R
+        }
+        
+        func dfs(_ root: TreeNode?) {
+            guard let node = root else { return }
+            
+            if isInRange(node.val){
+                sum += node.val
+            }
+            dfs(node.left)
+            dfs(node.right)
+        }
+        
+        dfs(root)
+        return sum
+    }
+
+
+    /**
      941. Valid Mountain Array
      */
     func validMountainArray(_ A: [Int]) -> Bool {
