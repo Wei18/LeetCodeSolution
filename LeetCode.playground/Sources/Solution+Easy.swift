@@ -1772,7 +1772,27 @@ public extension Solution{
         return 0
     }
     
-    
+    /**
+     1022. Sum of Root To Leaf Binary Numbers
+     */
+    func sumRootToLeaf(_ root: TreeNode?) -> Int {
+        func isLeaf(_ root: TreeNode) -> Bool{
+            return root.left === root.right
+        }
+        func bfs(_ root: TreeNode?, cur: Int) -> Int {
+            guard let node = root else { return 0 }
+            let sum = cur << 1 | node.val
+            
+            guard !isLeaf(node) else { return sum }
+            let l = bfs(node.left, cur: sum)
+            let r = bfs(node.right, cur: sum)
+            
+            return l + r
+        }
+        
+        return bfs(root, cur: 0)
+    }
+
     /**
      1108. Defanging an IP Address
      */
