@@ -1591,6 +1591,45 @@ public extension Solution{
         return true
     }
     
+    
+    /**
+     941. Valid Mountain Array
+     */
+    func validMountainArray(_ A: [Int]) -> Bool {
+        /*
+         A.length >= 3
+         There exists some i with 0 < i < A.length - 1 such that:
+         A[0] < A[1] < ... A[i-1] < A[i]
+         A[i] > A[i+1] > ... > A[A.length - 1]
+         */
+        
+        //Note that leetcode only accept one mountain.
+        func mounts(_ A: [Int], count: Int) -> Bool {
+            guard A.count >= 3 else { return false }
+            guard A[0] < A[1] else { return false }
+            var upper = 0
+            var lower = 0
+            var isUpper = true
+            for i in 0..<A.endIndex-1 {
+                if A[i] < A[i+1], isUpper {
+                    upper += 1
+                    isUpper.toggle()
+                }
+                else if A[i] > A[i+1], !isUpper{
+                    lower += 1
+                    isUpper.toggle()
+                }
+                else if A[i] == A[i+1] {
+                    return false
+                }
+            }
+            return upper == count && upper == lower
+        }
+        
+        return mounts(A, count: 1)
+    }
+
+
     /**
      942. DI String Match
 
