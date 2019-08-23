@@ -399,7 +399,7 @@ public extension Solution{
         func length(_ head: ListNode?) -> Int{
             var count = 0
             var node = head
-            while let exist = node{
+            while let _ = node{
                 count += 1
                 node = node?.next
             }
@@ -1362,6 +1362,42 @@ public extension Solution{
         
         return (minArea == Int.max) ? 0 : minArea
     }
-
-
+    
+    /**
+     954. Array of Doubled Pairs
+     */
+    func test_canReorderDoubled(){
+        assert(canReorderDoubled([3,1,3,6]) == false)
+        assert(canReorderDoubled([2,1,2,6]) == false)
+        assert(canReorderDoubled([4,-2,2,-4]) == true)
+        assert(canReorderDoubled([0,0]) == true)
+    }
+    func canReorderDoubled(_ A: [Int]) -> Bool {
+        func compute(_ a: [Int]) -> Bool {
+            let a = a.sorted()
+            var dp: [Int: Int] = a.reduce(into: [:]) { r, i in
+                r[i, default: 0] += 1
+            }
+            
+            for i in a.indices where dp[a[i]] != Int.min {
+                let v = a[i]
+                if dp[v*2] == nil {
+                    return false
+                }
+                if dp[v*2] == dp[v] {
+                    dp[v*2] = Int.min
+                }else{
+                    dp[v*2]! -= dp[v]!
+                }
+                dp[v] = Int.min
+            }
+            //All of dp values equal to Int.min after for-loop = ture
+            return dp.values.first{ $0 != Int.min } == nil
+        }
+        
+        let negArr = A.filter { $0 < 0 }.map { -$0 }
+        let posArr = A.filter { $0 >= 0 }
+        return compute(negArr) && compute(posArr)
+    }
+    
 }
