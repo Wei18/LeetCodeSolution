@@ -1200,9 +1200,36 @@ public extension Solution{
 
     
     /**
+     628. Maximum Product of Three Numbers
+     */
+    func maximumProduct(_ nums: [Int]) -> Int {
+        /*
+         max
+         ( 1st max * 2nd max * 3rd max )
+         ( 1st min * 2nd min * 1st max )
+         */
+        
+        var maxs = [Int.min, Int.min, Int.min]
+        var mins = [Int.max, Int.max]
+        
+        for num in nums {
+            if maxs[0] < num {
+                maxs[0] = num
+                maxs.sort(by: <)
+            }
+            if mins[0] > num {
+                mins[0] = num
+                mins.sort(by: >)
+            }
+        }
+        let ans0 = maxs[0] * maxs[1] * maxs[2]
+        let ans1 = maxs[2] * mins[0] * mins[1]
+        return max(ans0, ans1)
+    }
+
+    /**
      633. Sum of Square Numbers
      */
-    
     func judgeSquareSum(_ c: Int) -> Bool {
         /*
          if a^2 + b^2 = c return true
