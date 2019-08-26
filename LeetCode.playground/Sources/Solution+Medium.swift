@@ -647,7 +647,30 @@ public extension Solution{
 
     }
 
-    
+    /**
+     162. Find Peak Element
+     */
+    func findPeakElement(_ nums: [Int]) -> Int {
+        /*
+         Use Iterative Binary Search from left, right
+         return index of satisfied requirement
+         otherwise index (l, r) will approach each other.
+         */
+        var l = nums.startIndex
+        var r = nums.endIndex-1
+        
+        while l < r {
+            let m = (l + r) / 2
+            if nums[m] < nums[m+1] {
+                l = m + 1
+            }else{
+                r = m
+            }
+        }
+        
+        return l
+    }
+
     /**
      228. Summary Ranges
      */
