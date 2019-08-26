@@ -1190,6 +1190,45 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     646. Maximum Length of Pair Chain
+     */
+    func findLongestChain(_ pairs: [[Int]]) -> Int {
+        /*
+         first step, sorted pairs
+         and then increasing count if satisfied conditions, record the max.
+         that's easy way.
+         
+         so we use dynamic programming instead of it.
+         */
+        
+        if Bool.random(){
+            let pairs = pairs.sorted(by: { $0[1] < $1[1] })
+            var endingHere = Int.min
+            var res = 0
+            
+            for pair in pairs where pair[0] > endingHere {
+                res += 1
+                endingHere = pair[1]
+            }
+            return res
+        }
+        else{
+            let pairs = pairs.sorted(by: { $0[1] < $1[1] })
+            var dp = Array(repeating: 1, count: pairs.count)
+            var res = Int.min
+            
+            for i in pairs.indices{
+                for j in 0..<i where pairs[j][1] < pairs[i][0] {
+                    dp[i] = max(dp[i], dp[j]+1)
+                }
+                res = max(res, dp[i])
+            }
+            return res
+        }
+    }
+
     /**
      735. Asteroid Collision
      */
