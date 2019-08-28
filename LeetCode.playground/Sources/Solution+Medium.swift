@@ -1495,4 +1495,35 @@ public extension Solution{
         return compute(negArr) && compute(posArr)
     }
     
+    
+    /**
+     958. Check Completeness of a Binary Tree
+     */
+    func isCompleteTree(_ root: TreeNode?) -> Bool {
+        /*
+         Use Breath First Search
+         Mark flag "last" true if found the node is nil
+         if still has nxet node return false
+         return false
+         */
+        
+        var queue = [root]
+        var last = (root == nil)
+        
+        while !queue.isEmpty{
+            let q = queue.removeFirst()
+            
+            if q == nil {
+                last = (q == nil)
+            }else if last {
+                return false
+            }else{
+                queue.append(q?.left)
+                queue.append(q?.right)
+            }
+        }
+        
+        return true
+    }
+
 }
