@@ -1282,6 +1282,32 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     645. Set Mismatch
+     */
+    func findErrorNums(_ nums: [Int]) -> [Int] {
+        /*
+         sum of nums can be calculated by width * height / 2
+         use dictionary find the duplicated value
+         use reminder + duplicated
+         */
+        
+        var duplicated: Int!
+        let sum = (1 + nums.count) * nums.count / 2
+        let reminder = nums.reduce(sum, -)
+        
+        var dict: [Int: Int] = [:]
+        for number in nums {
+            dict[number, default: 0] += 1
+            if dict[number]! > 1 {
+                duplicated = number
+                break
+            }
+        }
+        
+        return [duplicated, reminder+duplicated]
+    }
 
     /**
      657. Robot Return to Origin
