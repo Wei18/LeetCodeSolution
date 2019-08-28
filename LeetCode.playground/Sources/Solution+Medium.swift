@@ -450,6 +450,39 @@ public extension Solution{
          */
     }
 
+    /**
+     74. Search a 2D Matrix
+     */
+    func searchMatrix(_ matrix: [[Int]], _ target: Int) -> Bool {
+        /*
+         Use binary search, and split mid into i,j
+         */
+        
+        let m = matrix.count
+        guard m > 0, let n = matrix.first?.count, n > 0 else { return false }
+        var l = 0
+        var r = m * n - 1
+        
+        func coordinate(_ index: Int) -> Int {
+            let i = index / n
+            let j = index % n
+            return matrix[i][j]
+        }
+        
+        while l <= r{
+            let mid = (l + r) / 2
+            let value = coordinate(mid)
+            if value == target {
+                return true
+            }else if value > target {
+                r = mid - 1
+            }else {
+                l = mid + 1
+            }
+        }
+        
+        return false
+    }
 
     /**
      94. Binary Tree Inorder Traversal
