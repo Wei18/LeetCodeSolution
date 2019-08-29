@@ -1585,6 +1585,68 @@ public extension Solution{
 
     
     /**
+     874. Walking Robot Simulation
+     */
+    func robotSim(_ commands: [Int], _ obstacles: [[Int]]) -> Int {
+        /*
+         //-2: turn left 90 degrees
+         //-1: turn right 90 degrees
+         //1 <= x <= 9: move forward x units
+         */
+        typealias Point = (x: Int, y: Int)
+        
+        enum Direction: Int{
+            case north
+            case east
+            case south
+            case west
+            
+            var point: Point {
+                switch self {
+                case .north: return (0, 1)
+                case .east : return (1, 0)
+                case .south: return (0, -1)
+                case .west : return (-1, 0)
+                }
+            }
+            
+            func turn(right: Bool) -> Direction{
+                var next = rawValue + (right ? 1 : -1)
+                next = next < 0 ? next + 4 : next
+                return Direction(rawValue: next % 4)!
+            }
+        }
+        
+        var direction = Direction.north
+        var point: Point = (0,0)
+        var result = 0
+        let obstacles = Set(obstacles)
+        
+        commands.forEach{ cmd in
+            switch cmd {
+            case -2:
+                direction = direction.turn(right: false)
+                
+            case -1:
+                direction = direction.turn(right: true)
+                
+            default:
+                for i in 1...cmd{
+                    let next = direction.point
+                    let check = [point.x + next.x, point.y + next.y]
+                    guard !obstacles.contains(check) else { break }
+                    point.x += next.x
+                    point.y += next.y
+                }
+                let area = point.x * point.x + point.y * point.y
+                result = max(result, area)
+            }
+        }
+        return result
+    }
+
+
+    /**
      876. Middle of the Linked List
      */
     func middleNode(_ head: ListNode?) -> ListNode? {
