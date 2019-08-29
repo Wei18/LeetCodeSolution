@@ -1631,7 +1631,7 @@ public extension Solution{
                 direction = direction.turn(right: true)
                 
             default:
-                for i in 1...cmd{
+                for _ in 1...cmd{
                     let next = direction.point
                     let check = [point.x + next.x, point.y + next.y]
                     guard !obstacles.contains(check) else { break }

@@ -1396,6 +1396,44 @@ public extension Solution{
         return node
     }
 
+    
+    /**
+     870. Advantage Shuffle
+     */
+    func advantageCount(_ A: [Int], _ B: [Int]) -> [Int] {
+        let PICKED = -1 //Flag
+        var A = A.sorted()
+        var result: [Int] = []
+        
+        var iA = A.startIndex
+        for b in B {
+            var isMatch = false
+            
+            //Move iterator
+            if b < (result.last ?? PICKED) {
+                iA = A.startIndex
+            }
+            
+            //Append one element that A[i] > b into array result.
+            for i in iA..<A.endIndex where A[i] > b {
+                result.append(A[i])
+                A[i] = PICKED
+                isMatch = true
+                iA = i
+                break
+            }
+            
+            //Otherwise, append first element that A[i] != PICKED into array result.
+            for i in A.indices where !isMatch, A[i] != PICKED {
+                result.append(A[i])
+                A[i] = PICKED
+                break
+            }
+        }
+        
+        return result
+    }
+
 
     /**
      918. Maximum Sum Circular Subarray
