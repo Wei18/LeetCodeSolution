@@ -1564,4 +1564,26 @@ public extension Solution{
         return true
     }
 
+    
+    /**
+     1014. Best Sightseeing Pair
+     */
+    func maxScoreSightseeingPair(_ A: [Int]) -> Int {
+        /*
+         dp[i][j] = A[i] + A[j] + i - j
+         
+         Note that Similar Kanade Algorithm, get 2 maximum values
+         */
+        var max_ending_here = Int.min
+        var max_so_far = Int.min
+        for k in 1..<A.endIndex {
+            let i = A[k-1]+k-1
+            let j = A[k]-k
+            max_ending_here = max(max_ending_here, i)
+            max_so_far = max(max_so_far, max_ending_here+j)
+        }
+        return max_so_far
+    }
+
+
 }
