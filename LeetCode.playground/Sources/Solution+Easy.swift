@@ -1331,7 +1331,49 @@ public extension Solution{
         return point == (0, 0)
     }
     
-    
+    /**
+     671. Second Minimum Node In a Binary Tree
+     */
+    func findSecondMinimumValue(_ root: TreeNode?) -> Int {
+        /*
+         Two conditions:
+         Each node in this tree has exactly two or zero sub-node.
+         root.val = min(root.left.val, root.right.val)
+         
+         Round1:
+         just check two values between left and right nodes
+         if these values are same return -1, if no nodes return -1
+         
+         Round2
+         go through the node that value of node is equal to the value of parent.
+         record other value of node that is not equal.
+         recurrence record value with method min.
+         */
+        
+        func dfs(_ root: TreeNode?) -> Int {
+            guard let node = root  else { return Int.max }
+            guard let left = node.left, let right = node.right else { return Int.max }
+            
+            var result = Int.max
+            if node.val == left.val{
+                result = dfs(left)
+            }else{
+                result = left.val
+            }
+            
+            if node.val == right.val{
+                result = min(result, dfs(right))
+            }else{
+                result = min(result, right.val)
+            }
+            
+            return result
+        }
+        
+        let r = dfs(root)
+        return r == Int.max ? -1 : r
+    }
+
     /**
      682. Baseball Game
      */
