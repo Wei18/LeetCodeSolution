@@ -1930,6 +1930,17 @@ public extension Solution{
     }
     
     /**
+     1009. Complement of Base 10 Integer
+     */
+    func bitwiseComplement(_ N: Int) -> Int {
+        var T = 1
+        while T < N {
+            T |= T<<1
+        }
+        return N ^ T
+    }
+
+    /**
      1022. Sum of Root To Leaf Binary Numbers
      */
     func sumRootToLeaf(_ root: TreeNode?) -> Int {
@@ -1951,17 +1962,6 @@ public extension Solution{
     }
 
     /**
-     1108. Defanging an IP Address
-     */
-    func defangIPaddr(_ address: String) -> String {
-        /*
-         split/components .
-         join [.]
-         */
-        return address.components(separatedBy: ".").joined(separator: "[.]")
-    }
-
-    /**
      1047. Remove All Adjacent Duplicates In String
      */
     func removeDuplicates(_ S: String) -> String {
@@ -1978,7 +1978,6 @@ public extension Solution{
 
     /**
      1103. Distribute Candies to People
-
      */
     func distributeCandies(_ candies: Int, _ num_people: Int) -> [Int] {
         
@@ -1994,6 +1993,17 @@ public extension Solution{
         }
         
         return result
+    }
+
+    /**
+     1108. Defanging an IP Address
+     */
+    func defangIPaddr(_ address: String) -> String {
+        /*
+         split/components .
+         join [.]
+         */
+        return address.components(separatedBy: ".").joined(separator: "[.]")
     }
 
 }
