@@ -744,6 +744,43 @@ public extension Solution{
         return result
     }
 
+    
+    /**
+     238. Product of Array Except Self
+     */
+    func productExceptSelf(_ nums: [Int]) -> [Int] {
+        /*
+         Use 2 pointer l, r and product excpt self
+         example:
+         leftCurrent = 1
+         nums   = [    2,   3,   4,     5]
+         result = [    1,   2, 2*3, 2*3*4]
+         
+         rightCurrent = 1
+         nums   = [    2,   3,   4,     5]
+         result = [5*4*3, 5*4,   5,     1]
+         
+         return the result is calculated that we product left result and right result.
+         */
+        
+        var dp = Array(repeating: 0, count: nums.count)
+        
+        var cur = 1
+        for i in nums.indices{
+            dp[i] = cur
+            cur *= nums[i]
+        }
+        
+        cur = 1
+        for j in stride(from: nums.count-1, to: -1, by: -1){
+            dp[j] *= cur
+            cur *= nums[j]
+        }
+        
+        return dp
+    }
+
+
     /**
      260. Single Number III
      */
@@ -1424,7 +1461,7 @@ public extension Solution{
             }
             
             //Otherwise, append first element that A[i] != PICKED into array result.
-            for i in A.indices where !isMatch, A[i] != PICKED {
+            for i in A.indices where !isMatch && A[i] != PICKED {
                 result.append(A[i])
                 A[i] = PICKED
                 break
