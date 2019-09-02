@@ -1017,11 +1017,17 @@ public extension Solution{
          Compute 2 moveing pointers
          
          Forgot:
-         Additional condition of edge:
+         Additional conditions of edge:
          i == 0 && j+1 != n && way == .topRight:
          j == 0 && i+1 != m && way == .bottomLeft:
+         
+         Add:
+         if sort cases, can remove additional conditions, become:
+         case (i,j) where j+1 == n && way == .topRight:
+         case (i,j) where i == 0 && way == .topRight:
+         case (i,j) where i+1 == m && way == .bottomLeft:
+         case (i,j) where j == 0 && way == .bottomLeft:
          */
-        
         enum Way{
             case topRight
             case bottomLeft
@@ -1044,16 +1050,16 @@ public extension Solution{
         while i<m && j<n {
             result.append(matrix[i][j])
             switch (i,j) {
-            case (i,j) where i == 0 && j+1 != n && way == .topRight:
-                j += 1
-                way.toggle()
             case (i,j) where j+1 == n && way == .topRight:
                 i += 1
+                way.toggle()
+            case (i,j) where i == 0 && way == .topRight:
+                j += 1
                 way.toggle()
             case (i,j) where i+1 == m && way == .bottomLeft:
                 j += 1
                 way.toggle()
-            case (i,j) where j == 0 && i+1 != m && way == .bottomLeft:
+            case (i,j) where j == 0 && way == .bottomLeft:
                 i += 1
                 way.toggle()
             default:
