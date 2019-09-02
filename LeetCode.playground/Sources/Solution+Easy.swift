@@ -1063,7 +1063,6 @@ public extension Solution{
         }
     }
 
-    
     /**
      530. Minimum Absolute Difference in BST
      */
@@ -1419,6 +1418,30 @@ public extension Solution{
         return sum.reduce(0, +)
     }
 
+    /**
+     700. Search in a Binary Search Tree
+     */
+    func searchBST(_ root: TreeNode?, _ val: Int) -> TreeNode? {
+        func dfs(_ root: TreeNode?, _ val: Int) -> TreeNode? {
+            /*
+             Use rule of Binary Search Tree to get node.
+             */
+            guard let node = root else { return nil }
+            
+            if val < node.val { //check left
+                return dfs(node.left, val)
+            }
+            else if val > node.val { //check right
+                return dfs(node.right, val)
+            }
+            else{
+                return node
+            }
+            
+        }
+        
+        return dfs(root, val)
+    }
 
     /**
      704. Binary Search
