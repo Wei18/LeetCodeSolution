@@ -1437,10 +1437,29 @@ public extension Solution{
             else{
                 return node
             }
-            
+        }
+        func bfs(_ root: TreeNode?, _ val: Int) -> TreeNode?{
+            /*
+             Use queue(FIFO)
+             */
+            var queue = [root]
+            while !queue.isEmpty {
+                guard let q = queue.removeFirst() else { continue }
+                if q.val == val {
+                    return q
+                }else{
+                    queue.append(q.left)
+                    queue.append(q.right)
+                }
+            }
+            return nil
         }
         
-        return dfs(root, val)
+        if Bool.random(){
+            return dfs(root, val)
+        }else{
+            return bfs(root, val)
+        }
     }
 
     /**
