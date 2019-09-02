@@ -995,6 +995,81 @@ public extension Solution{
     }
 
     /**
+     498. Diagonal Traverse
+     */
+    func findDiagonalOrder(_ matrix: [[Int]]) -> [Int] {
+        /*
+         Input:
+         [
+         [ 1, 2, 3 ],
+         [ 4, 5, 6 ],
+         [ 7, 8, 9 ]
+         ]
+         
+         Output:  [1,2,4,7,5,3,6,8,9]
+         
+         Solution:
+         Set the enum of way, top-right, bottom-left.
+         Set these two edge to trun way as below
+         if way == .topRight and ( i == 0 || j+1 == N )
+         if way == .bottomLeft and ( i+1 == M || j == 0 )
+         Set the stop condition that mean i+1 == M, j+1 == N
+         Compute 2 moveing pointers
+         
+         Forgot:
+         Additional condition of edge:
+         i == 0 && j+1 != n && way == .topRight:
+         j == 0 && i+1 != m && way == .bottomLeft:
+         */
+        
+        enum Way{
+            case topRight
+            case bottomLeft
+            mutating func toggle() {
+                if self == .bottomLeft {
+                    self = .topRight
+                }else{
+                    self = .bottomLeft
+                }
+            }
+        }
+        let m = matrix.count
+        let n = matrix.first?.count ?? 0
+        var result: [Int] = []
+        var way = Way.topRight
+        guard m > 0, n > 0 else { return result }
+        
+        var i = 0
+        var j = 0
+        while i<m && j<n {
+            result.append(matrix[i][j])
+            switch (i,j) {
+            case (i,j) where i == 0 && j+1 != n && way == .topRight:
+                j += 1
+                way.toggle()
+            case (i,j) where j+1 == n && way == .topRight:
+                i += 1
+                way.toggle()
+            case (i,j) where i+1 == m && way == .bottomLeft:
+                j += 1
+                way.toggle()
+            case (i,j) where j == 0 && i+1 != m && way == .bottomLeft:
+                i += 1
+                way.toggle()
+            default:
+                if way == .bottomLeft{
+                    i += 1
+                    j -= 1
+                }else{
+                    i -= 1
+                    j += 1
+                }
+            }
+        }
+        return result
+    }
+
+    /**
      513. Find Bottom Left Tree Value
      */
     func findBottomLeftValue(_ root: TreeNode?) -> Int {
