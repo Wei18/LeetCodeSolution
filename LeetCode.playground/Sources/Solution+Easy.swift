@@ -1063,6 +1063,30 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     530. Minimum Absolute Difference in BST
+     */
+    func getMinimumDifference(_ root: TreeNode?) -> Int {
+        /*
+         use inorder traversal in depth first search
+         to get sorted values(<) of each node from the BST
+         and then keep previous to calculated minimum result
+         */
+        func inorder(_ root: TreeNode?, _ prev: inout TreeNode?) -> Int {
+            guard let node = root else { return Int.max }
+            var result = inorder(node.left, &prev)
+            if let prev = prev {
+                result = min(result, node.val-prev.val)
+            }
+            prev = node
+            let rR = inorder(node.right, &prev)
+            return min(result, rR)
+        }
+        var captured: TreeNode?
+        return inorder(root, &captured)
+    }
+
     /**
      538. Convert BST to Greater Tree
      */
