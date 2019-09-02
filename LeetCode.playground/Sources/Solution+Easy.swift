@@ -1796,7 +1796,28 @@ public extension Solution{
         return incrasableSingle
     }
 
-    
+    /**
+     897. Increasing Order Search Tree
+     */
+    func increasingBST(_ root: TreeNode?) -> TreeNode? {
+        /*
+         Use RNL traversal in depth first search to get the sorted nodes(<)
+         and keep previous node.
+         */
+        func dfs(_ root: TreeNode?, _ prev: inout TreeNode?) {
+            guard let node = root else { return }
+            dfs(node.right, &prev)
+            node.right = prev
+            prev?.left  = nil
+            prev = node
+            dfs(node.left, &prev)
+        }
+        
+        var captured: TreeNode?
+        dfs(root, &captured)
+        return captured
+    }
+
     /**
      914. X of a Kind in a Deck of Cards
      */
