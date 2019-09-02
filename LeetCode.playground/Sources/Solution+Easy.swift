@@ -1635,7 +1635,30 @@ public extension Solution{
         return J.compactMap{ dict[$0] }.reduce(0, +)
     }
     
-    
+    /**
+     783. Minimum Distance Between BST Nodes
+     */
+    func minDiffInBST(_ root: TreeNode?) -> Int {
+        /*
+         Use inorder traversal in depth first search to get the sorted nodes(<)
+         and keep previous node.
+         return the minimum difference between the values of any two different nodes in the tree.
+         */
+        func dfs(_ root: TreeNode?, _ prev: inout TreeNode?) -> Int{
+            guard let node = root else { return Int.max }
+            var result = dfs(node.left, &prev)
+            if let prev = prev{
+                result = min(result, node.val-prev.val)
+            }
+            prev = node
+            var rR = dfs(node.right, &prev)
+            return min(result, rR)
+        }
+        
+        var captured: TreeNode?
+        return dfs(root, &captured)
+    }
+
     /**
      812. Largest Triangle Area
      */
