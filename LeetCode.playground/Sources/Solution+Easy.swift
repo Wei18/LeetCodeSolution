@@ -399,24 +399,41 @@ public extension Solution{
      */
     func levelOrderBottom(_ root: TreeNode?) -> [[Int]] {
         var result: [[Int]] = []
-        DFSLevelOrderBottom(root, 0, &result)
-        return result.reversed()
-    }
-    
-    func DFSLevelOrderBottom(_ root: TreeNode?, _ floor: Int, _ res: inout [[Int]]){
-        guard let node = root else { return }
-        let nextFloor = floor + 1
         
-        if floor < res.count {
-            res[floor].append(node.val)
-        }else{
-            res.append([node.val])
+        func bfs(){
+            guard let node = root else { return }
+            var queue = [node]
+            while !queue.isEmpty{
+                result.append([])
+                for _ in queue.indices {
+                    let q = queue.removeFirst()
+                    result[result.endIndex-1].append(q.val)
+                    if let l = q.left  { queue.append(l) }
+                    if let r = q.right { queue.append(r) }
+                }
+            }
         }
         
-        DFSLevelOrderBottom(node.left, nextFloor, &res)
-        DFSLevelOrderBottom(node.right, nextFloor, &res)
+        func dfs(_ root: TreeNode?, _ floor: Int, _ res: inout [[Int]]){
+            guard let node = root else { return }
+            
+            if floor < res.count {
+                res[floor].append(node.val)
+            }else{
+                res.append([node.val])
+            }
+            
+            dfs(node.left, floor + 1, &res)
+            dfs(node.right, floor + 1, &res)
+        }
+        
+        if Bool.random(){
+            dfs(root, 0, &result)
+        }else{
+            bfs()
+        }
+        return result.reversed()
     }
-
     
     /**
      111. Minimum Depth of Binary Tree
@@ -1651,7 +1668,7 @@ public extension Solution{
                 result = min(result, node.val-prev.val)
             }
             prev = node
-            var rR = dfs(node.right, &prev)
+            let rR = dfs(node.right, &prev)
             return min(result, rR)
         }
         
