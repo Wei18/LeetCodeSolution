@@ -1381,6 +1381,58 @@ public extension Solution{
     }
 
     /**
+     725. Split Linked List in Parts
+     */
+    func splitListToParts(_ root: ListNode?, _ k: Int) -> [ListNode?] {
+        /*
+         get len of root
+         get division of k / len
+         handle with it
+         */
+        
+        func len(_ root: ListNode?) -> Int{
+            var count = 0
+            var node = root
+            while let _ = node {
+                count += 1
+                node = node?.next
+            }
+            return count
+        }
+        
+        func split(_ root: ListNode?, count: Int) -> [ListNode?] {
+            var res: [ListNode?] = [root, nil]
+            var node = root
+            var prev = node
+            
+            for _ in 0..<count where node != nil {
+                prev = node
+                node = node?.next
+            }
+            prev?.next = nil
+            res[1] = node
+            return res
+        }
+        
+        let count = len(root)
+        var result: [ListNode?] = []
+        
+        var disivions = Array(repeating: 0, count: k)
+        for i in 0..<count{
+            disivions[i%k] += 1
+        }
+        
+        var prev: ListNode? = root
+        for num in disivions{
+            let splited = split(prev, count: num)
+            result.append(splited[0])
+            prev = splited[1]
+        }
+        
+        return result
+    }
+    
+    /**
      735. Asteroid Collision
      */
     func asteroidCollision(_ asteroids: [Int]) -> [Int] {
