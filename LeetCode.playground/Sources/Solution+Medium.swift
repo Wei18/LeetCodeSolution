@@ -554,26 +554,47 @@ public extension Solution{
 
     /**
      102. Binary Tree Level Order Traversal
+     https://leetcode.com/problems/binary-tree-level-order-traversal/
      */
     func levelOrder(_ root: TreeNode?) -> [[Int]] {
-        var levelOrderArr: [[Int]] = []
-        recursivelyLevelOrder(root, index: 0, result: &levelOrderArr)
-        return levelOrderArr
-    }
-    
-    func recursivelyLevelOrder(_ root: TreeNode?, index: Int, result: inout [[Int]]){
-        guard let node = root else { return }
-        let nextIndex = index + 1
-        if index == result.count {
-            result.append([node.val])
-        }else{
-            result[index].append(node.val)
+        func recursivelyLevelOrder(_ root: TreeNode?, index: Int, result: inout [[Int]]){
+            guard let node = root else { return }
+            let nextIndex = index + 1
+            if index == result.count {
+                result.append([node.val])
+            }else{
+                result[index].append(node.val)
+            }
+            recursivelyLevelOrder(node.left, index: nextIndex, result: &result)
+            recursivelyLevelOrder(node.right, index: nextIndex, result: &result)
         }
-        
-        recursivelyLevelOrder(node.left, index: nextIndex, result: &result)
-        recursivelyLevelOrder(node.right, index: nextIndex, result: &result)
+        func bfs() -> [[Int]] {
+            guard let node = root else { return [] }
+            var queue = [node]
+            var result: [[Int]] = []
+            while !queue.isEmpty{
+                result.append([])
+                for _ in queue.indices{
+                    let q = queue.removeFirst()
+                    result[result.count-1].append(q.val)
+                    if let l = q.left{
+                        queue.append(l)
+                    }
+                    if let r = q.right{
+                        queue.append(r)
+                    }
+                }
+            }
+            return result
+        }
+        if Bool.random(){
+        var levelOrderArr: [[Int]] = []
+            recursivelyLevelOrder(root, index: 0, result: &levelOrderArr)
+            return levelOrderArr
+        }else{
+            return bfs()
+        }
     }
-    
     
     /**
      113. Path Sum II
