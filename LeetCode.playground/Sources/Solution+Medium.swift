@@ -1243,25 +1243,48 @@ public extension Solution{
      540. Single Element in a Sorted Array
      */
     func singleNonDuplicate(_ nums: [Int]) -> Int {
-        var result: Int = 0
-        var preI = 0
-        for var i in 0..<nums.count{
-            if i == nums.count - 1{
-                result = nums[i]
+        func v190905() -> Int{
+            /* Binary Search */
+            var l = nums.startIndex
+            var r = nums.endIndex-1
+            while l<=r{
+                let m = (l+r) >> 1
+                if m == nums.startIndex ||
+                    m == nums.endIndex-1 ||
+                    (nums[m-1] != nums[m] && nums[m] != nums[m+1]) {
+                    return nums[m]
+                }
+                let match = (m%2 == 0) ? nums[m+1] : nums[m-1]
+                if nums[m] == match{
+                    l = m+1
+                }else{
+                    r = m-1
+                }
             }
-            else if nums[i] == nums[i + 1]{
-                i = i + preI
-            }
-            else if i > 0, nums[i] == nums[i - 1] {
-                i = (preI + i) / 2
-            }
-            else{
-                result = nums[i]
-                break
-            }
-            preI = i
+            return nums.last ?? 0
         }
-        return result
+        func v0() -> Int{
+            var result: Int = 0
+            var preI = 0
+            for var i in 0..<nums.count{
+                if i == nums.count - 1{
+                    result = nums[i]
+                }
+                else if nums[i] == nums[i + 1]{
+                    i = i + preI
+                }
+                else if i > 0, nums[i] == nums[i - 1] {
+                    i = (preI + i) / 2
+                }
+                else{
+                    result = nums[i]
+                    break
+                }
+                preI = i
+            }
+            return result
+        }
+        return v190905()
     }
     
     
