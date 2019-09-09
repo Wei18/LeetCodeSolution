@@ -525,6 +525,80 @@ public extension Solution{
         return lA + cur + rA
     }
 
+    
+    /**
+     130. Surrounded Regions
+     */
+    func solve(_ board: inout [[Character]]) {
+        /*
+         let's start 3 loops
+         round 1, from left-top, change any 'O' on the border and it is connected to an 'O' on the border to '#'
+         round 2, from right-bottom, change any 'O' on the border and it is connected to an 'O' on the border to '#'
+         round 3, change any '#' on the border to 'O' and others to 'X'
+         */
+        guard !board.isEmpty, !board[0].isEmpty else { return }
+        
+        let Tag: Character = "#"
+        let O: Character = "O"
+        let X: Character = "X"
+        let m = board.count
+        let n = board[0].count
+        
+        //round 1
+        for i in 0..<m{
+            for j in 0..<n where board[i][j] == O {
+                if i == 0 || j == 0 {
+                    board[i][j] = Tag
+                }
+                else if board[i-1][j] == Tag {
+                    board[i][j] = Tag
+                }
+                else if board[i][j-1] == Tag {
+                    board[i][j] = Tag
+                }
+                /*
+                 //round 2
+                 else if i == m-1 || j == n-1 {
+                 board[i][j] = "#"
+                 }
+                 else if board[i+1][j] == "#" {
+                 board[i][j] = "#"
+                 }
+                 else if board[i][j+1] == "#" {
+                 board[i][j] = "#"
+                 }
+                 */
+            }
+        }
+        
+        //round 2
+        for i in stride(from: m-1, to: -1, by: -1){
+            for j in stride(from: n-1, to: -1, by: -1) where board[i][j] == O {
+                if i == m-1 || j == n-1 {
+                    board[i][j] = Tag
+                }
+                else if board[i+1][j] == Tag {
+                    board[i][j] = Tag
+                }
+                else if board[i][j+1] == Tag {
+                    board[i][j] = Tag
+                }
+            }
+        }
+        
+        //round 3
+        for i in 0..<m{
+            for j in 0..<n {
+                if board[i][j] == Tag {
+                    board[i][j] = O
+                }else if board[i][j] == O {
+                    board[i][j] = X
+                }
+            }
+        }
+    }
+
+
     /**
      98. Validate Binary Search Tree
      */
