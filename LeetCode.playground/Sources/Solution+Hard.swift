@@ -153,6 +153,67 @@ public extension Solution{
 
     
     /**
+     329. Longest Increasing Path in a Matrix
+     */
+    func longestIncreasingPath(_ matrix: [[Int]]) -> Int {
+        /*
+         Use dynamic programming to keep the longest increasing path each cells.
+         Use + depth first search to find the end of current path.
+         The following conditions:
+         1. Default dp value is Int.min
+         2. Use recursive+dfs and set dp[the cell is end of current path] = 1
+         3. If value of cells of neighbor is large than value of the current cell
+            (mean that can be connected to path),
+            update dp[the current cell] = max(cells) + 1
+         3. Loop rest of Int.min value dp
+         */
+        
+        var lip = 0
+        let m = matrix.count
+        let n = matrix.first?.count ?? 0
+        guard m > 0, n > 0 else { return lip }
+        var dp = Array(repeating: Array(repeating: Int.min, count: n), count: m)
+        
+        func isInside(y: Int, x: Int) -> Bool {
+            guard x >= 0, x < n else { return false }
+            guard y >= 0, y < m else { return false }
+            return true
+        }
+        func isPath(_ y: Int, _ x: Int, _ y2: Int, _ x2: Int) -> Bool {
+            return matrix[y][x] < matrix[y2][x2]
+        }
+        
+        func infection(y: Int, x: Int) -> Int {
+            guard dp[y][x] == Int.min else { return dp[y][x] }
+            
+            var path = 0
+            if isInside(y: y+1, x: x), isPath(y, x, y+1, x) {
+                path = max(path, infection(y: y+1, x: x))
+            }
+            if isInside(y: y-1, x: x), isPath(y, x, y-1, x) {
+                path = max(path, infection(y: y-1, x: x))
+            }
+            if isInside(y: y, x: x+1), isPath(y, x, y, x+1) {
+                path = max(path, infection(y: y, x: x+1))
+            }
+            if isInside(y: y, x: x-1), isPath(y, x, y, x-1) {
+                path = max(path, infection(y: y, x: x-1))
+            }
+            
+            dp[y][x] = path + 1
+            return dp[y][x]
+        }
+        
+        for j in matrix.indices{
+            for i in matrix[j].indices {
+                _ = infection(y: j, x: i)
+                lip = max(lip, dp[j][i])
+            }
+        }
+        return lip
+    }
+
+    /**
      460. LFU Cache
      */
     class GenericLFUCache<Key: Hashable, Value: Any> {
