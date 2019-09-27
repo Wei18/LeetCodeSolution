@@ -1514,6 +1514,47 @@ public extension Solution{
     }
 
     /**
+     695. Max Area of Island
+     */
+    func maxAreaOfIsland(_ grid: [[Int]]) -> Int {
+        /*
+         Loop all of grid which is island.
+         If meet island we calculate size of island by bfs and become it to water.
+         Record the maximum size and return it.
+         */
+        
+        var maxArea = 0
+        var grid = grid
+        let m = grid.count
+        let n = grid.first?.count ?? 0
+        
+        func infection(y: Int, x: Int, m: Int, n: Int) -> Int {
+            //horizontal conditions, vertical contitions
+            guard x >= 0, x < n else { return 0 }
+            guard y >= 0, y < m else { return 0 }
+            
+            //keep size of island and become it to water
+            var size = grid[y][x]
+            guard size == 1 else { return 0 }
+            grid[y][x] = 0
+            size += infection(y: y+1, x: x, m: m, n: n)
+            size += infection(y: y-1, x: x, m: m, n: n)
+            size += infection(y: y, x: x+1, m: m, n: n)
+            size += infection(y: y, x: x-1, m: m, n: n)
+            return size
+        }
+        
+        for i in grid.indices{
+            for j in grid[i].indices where grid[i][j] == 1 {
+                let area = infection(y: i, x: j, m: m, n: n)
+                maxArea = max(maxArea, area)
+            }
+        }
+        
+        return maxArea
+    }
+
+    /**
      725. Split Linked List in Parts
      */
     func splitListToParts(_ root: ListNode?, _ k: Int) -> [ListNode?] {
