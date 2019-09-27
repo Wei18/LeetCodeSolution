@@ -1929,5 +1929,52 @@ public extension Solution{
         return max_so_far
     }
 
+    
+    /**
+     1143. Longest Common Subsequence
+     */
+    func longestCommonSubsequence(_ text1: String, _ text2: String) -> Int {
+        //time complexity O(m*n)
+        func omn() -> Int{
+            guard text1.count > 0, text2.count > 0 else { return 0 }
+            var dp = Array(repeating: Array(repeating: 0, count: text2.count+1), count: text1.count+1)
+            var text1 = Array(text1)
+            var text2 = Array(text2)
+            
+            for i in 1...text1.count {
+                for j in 1...text2.count {
+                    if text1[i-1] == text2[j-1] {
+                        dp[i][j] = 1 + dp[i-1][j-1]
+                    }else{
+                        dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                    }
+                }
+            }
+            return dp[text1.count][text2.count]
+        }
+        
+        //time complexity O(n)
+    //     func on() -> Int{
+    //         guard text1.count > 0, text2.count > 0 else { return 0 }
+    //         var dp = Array(repeating: 0, count: text2.count+1)
+    //         var text1 = Array(text1)
+    //         var text2 = Array(text2)
+            
+    //         for i in 1...text1.count {
+    //             for j in 1...text2.count {
+    //                 if text1[i-1] == text2[j-1] {
+    //                     dp[j] = 1 + dp[j-1]
+    //                 }else{
+    //                     dp[j] = max(dp[j], dp[j-1])
+    //                 }
+    //             }
+    //         }
+    //         return dp[text2.count]
+    //     }
+        
+        return omn()
+    }
+
+
 
 }
