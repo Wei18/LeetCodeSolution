@@ -151,6 +151,186 @@ public extension Solution{
         return res.reversed()
     }
 
+    
+    /**
+     460. LFU Cache
+     */
+    class GenericLFUCache<Key: Hashable, Value: Any> {
+        /*
+         Author: Wei
+         Note: I take time to figure out what LFUCache I want.
+         
+         Use Double List Node + HashMap
+         set a property HashMap of [Key: DLListNode<Value>]
+         set a property HashMap of [Count: DLList]
+         
+         Now we implement the following methods in DLListNode:
+         * init(_ key: Key, _ value: Value)
+         * remove()
+         
+         And then we implement the following methods:
+         * init?(_ capacity: Int) {
+         * get(Key) -> Value?
+         * set(Key, Value) // put(Key, Value) //
+         * sink(Node)
+         * pop()
+         * add(Node)
+         */
+        
+        private typealias Node = DLListNode<Key, Value>
+        
+        private class List{
+            var head: Node
+            var tail: Node
+            
+            var isEmpty: Bool {
+                return head.next === tail && tail.prev === head
+            }
+            
+            init(_ node: Node) {
+                self.head = Node()
+                self.tail = Node()
+                self.head.next = node
+                node.prev = self.head
+                node.next = self.tail
+                self.tail.prev = node
+            }
+            
+            func add(_ node: Node) {
+                node.prev = head
+                node.next = head.next
+                head.next?.prev = node
+                head.next = node
+            }
+            
+            func remove(_ node: Node) {
+                node.prev?.next = node.next
+                node.next?.prev = node.prev
+            }
+            
+            func removeLast() -> Node {
+                let node = tail.prev!
+                remove(node)
+                return node
+            }
+        }
+        
+        private class DLListNode<Key: Hashable, Value: Any> {
+            var prev: Node?
+            var next: Node?
+            
+            var key: Key!
+            var value: Value!
+            var frequency: Int!
+            
+            init(){
+                
+            }
+            init(_ key: Key, _ value: Value) {
+                self.key = key
+                self.value = value
+                self.frequency = 1
+            }
+        }
+
+        private let capacity: Int
+
+        private var datum: [Key: Node] = [:]
+        private var countMap: [Int: List] = [:]
+        
+        private var size: Int { return datum.count }
+        private var min: Int = 0 // min reference count among all nodes in the cache
+
+
+        init?(_ capacity: Int) {
+            //If no capacity return nil
+            guard capacity > 0 else { return nil }
+            self.capacity = capacity
+        }
+
+        func get(_ key: Key) -> Value? {
+            if let node = datum[key] {
+                sink(node)
+                return node.value
+            } else {
+                return nil
+            }
+        }
+
+        func put(_ key: Key, _ value: Value) {
+            set(key, value)
+        }
+
+        func set(_ key: Key, _ value: Value) {
+            if let node = datum[key] {
+                node.value = value
+                sink(node)
+            } else {
+                if size == capacity {
+                    pop()
+                }
+                let node = Node(key, value)
+                add(node)
+            }
+        }
+
+        private func sink(_ node: Node) {
+            guard let list = countMap[node.frequency] else { return }
+            list.remove(node)
+            if list.isEmpty, min == node.frequency {
+                min += 1
+            }
+            node.frequency += 1
+            update(node)
+        }
+
+        private func pop() {
+            let list = countMap[min]
+            guard let node = list?.removeLast() else { return }
+            datum[node.key] = nil
+        }
+
+        private func add(_ node: Node) {
+            min = node.frequency
+            datum[node.key] = node
+            update(node)
+        }
+
+        private func update(_ node: Node){
+            if let list = countMap[node.frequency] {
+                list.add(node)
+            }else {
+                countMap[node.frequency] = List(node)
+            }
+        }
+    }
+
+    class LFUCache {
+        var cache: GenericLFUCache<Int, Int>?
+        init(_ capacity: Int) {
+            cache = GenericLFUCache<Int, Int>(capacity)
+        }
+        
+        func get(_ key: Int) -> Int {
+            if let exist = cache?.get(key){
+                return exist
+            }else{
+                return -1
+            }
+        }
+        
+        func put(_ key: Int, _ value: Int) {
+            cache?.set(key, value)
+        }
+    }
+
+    /**
+     * Your LFUCache object will be instantiated and called as such:
+     * let obj = LFUCache(capacity)
+     * let ret_1: Int = obj.get(key)
+     * obj.put(key, value)
+     */
+
     /**
      765. Couples Holding Hands
      */
