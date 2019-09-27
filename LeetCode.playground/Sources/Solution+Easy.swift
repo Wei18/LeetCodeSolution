@@ -891,6 +891,26 @@ public extension Solution{
         return getSum(xor, carry)
     }
 
+    
+    /**
+     383. Ransom Note
+     */
+    func canConstruct(_ ransomNote: String, _ magazine: String) -> Bool {
+        func getCharacterCount(from text: String) -> [String.Element : Int] {
+            return text.reduce(into: [:]) { r, c in
+                r[c, default: 0] += 1
+            }
+        }
+        let ransomCount = getCharacterCount(from: ransomNote)
+        let magazineCount = getCharacterCount(from: magazine)
+
+        for key in ransomCount.keys where ransomCount[key]! > magazineCount[key, default: 0] {
+            return false
+        }
+        
+        return true
+    }
+
     /**
      412. Fizz Buzz
      */
