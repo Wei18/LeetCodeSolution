@@ -274,7 +274,22 @@ public extension Solution{
         }
     }
 
-    
+    /**
+     24. Swap Nodes in Pairs
+     */
+    func swapPairs(_ head: ListNode?) -> ListNode? {
+        /*
+         1. Set edge condition of recursive method.
+         2. Recursively use method to reach last pair.
+         3. Swap 2 nodes even and odd, bind rest of nodes and the odd node and then return the node even.
+         */
+        guard let odd = head, let even = odd.next else { return head }
+        let rest = swapPairs(even.next)
+        even.next = odd
+        odd.next = rest
+        return even
+    }
+
     /**
      33. Search in Rotated Sorted Array
      */
