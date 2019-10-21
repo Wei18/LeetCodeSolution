@@ -856,6 +856,61 @@ public extension Solution{
             nums[j] = 0
         }
     }
+    
+    /**
+     303. Range Sum Query - Immutable
+     */
+    class NumArrayON {
+        private var datum: [Int]
+        
+        init(_ nums: [Int]) {
+            datum = nums
+        }
+        
+        func sumRange(_ i: Int, _ j: Int) -> Int {
+            var sum = 0
+            for k in i...j {
+                sum += datum[k]
+            }
+            return sum
+        }
+    }
+    
+    class NumArrayO1 {
+        private var sum: [Int]
+        
+        /*
+         Define sum[k] = sigma from i = 0 to i = k, nums[i]
+         aka range[0, k]
+         
+         so that if we wanna range[i,k]
+         that means sum[k] - sum[i-1]
+         therefore check i > 0 every time.
+         
+         if we define sum[k] = sigma from i = 0 to i = k-1, nums[i], k > 0; 0, k = 0;
+         aka range[0, k-1]
+         
+         so range[i, j] = sum[j+1] - sum[i]
+         and then we calculate sum.
+         */
+        init(_ nums: [Int]) {
+            //sum[0] = 0
+            sum = [0]
+            
+            //
+            for i in nums.indices {
+                sum.append(sum[i] + nums[i])
+            }
+        }
+        
+        private subscript(_ i: Int, _ j: Int) -> Int{
+            return sum[j+1] - sum[i]
+        }
+        
+        func sumRange(_ i: Int, _ j: Int) -> Int {
+            return self[i, j]
+        }
+    }
 
     /**
      344. Reverse String
