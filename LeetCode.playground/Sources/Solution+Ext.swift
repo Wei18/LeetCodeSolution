@@ -1,5 +1,11 @@
 import Foundation
 
+func test<T: Equatable>(expected expectedResult: T, _ closure: (() -> T) ) {
+    let testResult = closure()
+    guard testResult != expectedResult  else { return }
+    print("(test)\(testResult) != (expected)\(expectedResult)")
+}
+
 class Graph{
     var neighbors: [Graph] = []
     var value: Int

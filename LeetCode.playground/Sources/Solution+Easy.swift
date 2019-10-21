@@ -228,6 +228,23 @@ public extension Solution{
         }
     }
 
+    
+    /**
+     70. Climbing Stairs
+     */
+    func climbStairs(_ n: Int) -> Int {
+         if n < 3 { return n }
+         var step1 = 1
+         var step2 = 2
+         
+         for i in 3...n {
+             var step3 = step1 + step2
+             step1 = step2
+             step2 = step3
+         }
+         return step2
+     }
+
     /**
      88. Merge Sorted Array
      */
