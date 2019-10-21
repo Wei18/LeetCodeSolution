@@ -1,5 +1,29 @@
 import Foundation
 
+class Graph{
+    var neighbors: [Graph] = []
+    var value: Int
+    
+    init(_ v: Int){
+        value = v
+    }
+    
+    static func maker(_ graph: [[Int]]) -> [Graph] {
+        var dict: [Int: Graph] = [:]
+        
+        for i in graph.indices {
+            dict[i] = Graph(i)
+        }
+        
+        for i in graph.indices {
+            dict[i]!.neighbors = graph[i].compactMap{ dict[$0] }
+        }
+        
+        return dict.values.map{ $0 }
+    }
+
+}
+
 extension Solution{
     class ListBuilder{
         static func get(_ nums: [Int]) -> ListNode? {
