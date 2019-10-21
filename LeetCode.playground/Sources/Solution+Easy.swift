@@ -572,6 +572,40 @@ public extension Solution{
         return currentMaxValue
     }
 
+    
+    /**
+     189. Rotate Array
+     */
+    func rotate(_ nums: inout [Int], _ k: Int) {
+        //Check array exist
+        guard nums.count > 0 else { return }
+
+        //Actual steps by mod operator
+        let steps = k % nums.count
+
+        //Check need ratation.
+        guard steps != 0 else { return }
+
+        func reverse(_ nums: inout [Int], _ s: Int, _ e: Int){
+            var left = s
+            var right = e
+            while left < right {
+                nums.swapAt(left, right)
+                left += 1
+                right -= 1
+            }
+        }
+        
+        //from [1,2,3,4,5,6,7], k = 3
+        //to   [7,6,5,4,3,2,1]
+        reverse(&nums, nums.startIndex, nums.endIndex-1)
+        //to   [5,6,7,4,3,2,1]
+        reverse(&nums, 0, steps)
+        //to   [5,6,7,1,2,3,4]
+        reverse(&nums, steps, nums.endIndex-1)
+    }
+
+
     /**
      202. Happy Number
      */
