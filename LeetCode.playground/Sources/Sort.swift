@@ -63,8 +63,42 @@ public class SortSolution{
     }
 }
 
+
+
 //MARK:- QuickSort
 private extension SortSolution{
+    
+    func threeWaysPartitioningQucik<C: Comparable>(_ nums: inout [C], lo: Int, hi: Int) {
+        guard lo < hi else { return }
+        var lt = lo // the nums[lt] mean that left values less than it
+        var gt = hi // the nums[gt] mean that right values grater than it
+        var i = lo
+        // scan i from left to right
+        while i <= gt {
+            // nums[i] < v, exchange nums[lt] with nums[i]; increment both lt and i.
+            // nums[i] > v, exchange nums[gt] with nums[i]; decrement gt.
+            // nums[i] == v, increment i
+            if nums[i] < nums[lt] {
+                swap(&nums, i, lt)
+                lt += 1
+                i += 1
+            } else if nums[i] > nums[lt] {
+                swap(&nums, i, gt)
+                gt -= 1
+            } else {
+                i += 1
+            }
+        }
+        
+        threeWaysPartitioningQucik(&nums, lo: lo, hi: lt-1)
+        threeWaysPartitioningQucik(&nums, lo: gt+1, hi: hi)
+        
+    }
+    
+    private func swap<C: Comparable>(_ nums: inout [C], _ i: Int, _ j: Int) {
+        (nums[i], nums[j]) = (nums[j], nums[i])
+    }
+    
     func quick(_ nums: inout [Int], lo: Int, hi: Int){
         if hi <= lo { return }
         let j = partition(&nums, lo, hi)
