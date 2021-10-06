@@ -58,6 +58,45 @@ public extension Solution{
         return r
     }
     
+   /**
+    5. Longest Palindromic Substring
+    
+    To consider each char in s,
+    should have the same value of both left char and right char,
+    record the result and then loop next char.
+    
+    Case: even palindrome / odd palindrome
+    */
+    func longestPalindrome(_ s: String) -> String {
+        
+        func getPalindromeIndices(_ left: Int, _ right: Int) -> (Int, Int) {
+            var (left, right) = (left, right)
+            while left >= 0, right < chars.count, chars[left] == chars[right] {
+                left -= 1
+                right += 1
+            }
+            return (left+1, right-1)
+        }
+        
+        var result = (0, 0)
+        let chars = Array(s)
+        
+        for i in chars.indices {
+            
+            let odd = getPalindromeIndices(i, i)
+            if odd.1 - odd.0 > result.1 - result.0 {
+                result = odd
+            }
+            
+            let even = getPalindromeIndices(i, i+1)
+            if even.1 - even.0 > result.1 - result.0 {
+                result = even
+            }
+            
+        }
+        
+        return String(chars[result.0...result.1])
+    }
     
     /**
      11. Container With Most Water
